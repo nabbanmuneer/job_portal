@@ -10,7 +10,7 @@ function NavBar() {
     }
     return (
 
-        <div className="flex justify-between  h-30 max-w-[1240] mx-auto px-0 ">
+        <div className="flex justify-between cursor-default  h-30 max-w-[1240] mx-auto px-0 ">
             <h1 className="w-full font-bold bg-yellow-400 text-black  text-2xl p-4">LetsHire</h1>
             <ul className="hidden md:flex ">
                 <div className="flex bg-yellow-400">
