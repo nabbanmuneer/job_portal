@@ -4,7 +4,7 @@ import { GiHamburgerMenu,RxCross1 } from "react-icons/all"
  
 
 function NavBar() {
-    const [nav, setNav] = useState(false);
+    const [nav, setNav] = useState("nav");
     const handlenav=()=>{
         setNav(!nav);
     }

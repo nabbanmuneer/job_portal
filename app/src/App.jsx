@@ -13,7 +13,7 @@ function App() {
       <div>
         
           <NavBar />
-          {/* <RegForm /> */}
+          <RegForm />
       </div>
     
   )
