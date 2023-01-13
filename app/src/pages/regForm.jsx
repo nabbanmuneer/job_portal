@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import axios from "axios";
 
 const regForm = () => {
     const [userName, setUserName] = useState('');
@@ -129,7 +129,7 @@ const regForm = () => {
             mobileCheck() &&
             password === re_password
         ) {
-            // const response = axios.post("http://localhost:5000/register", user);
+            const response = axios.post("http://localhost:3000/employee/register", user);
             console.log("data", email, userName, phoneNo, password);
         } else {
             console.log("Error");

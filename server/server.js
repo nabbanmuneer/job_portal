@@ -1,13 +1,27 @@
 const express=require("express");
-const mongoose=require("mongoose")
+const mongoose=require("mongoose");
+const dotenv = require("dotenv");
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const corsOptions = require("./config/corsOption");
+
+
 const app=express();
+dotenv.config();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
 
 
+const employeeRoute = require('./routers/empoyeeRoute');
+
+app.use("/employee",employeeRoute);
 
 
-
-mongoose.connect("mongodb://127.0.0.1:27017/jobportal").then(()=>{
-    app.listen(3000,()=>{
+mongoose.connect(process.env.CONNECTDB).then(()=>{
+    mongoose.set('strictQuery', false);
+    app.listen(process.env.PORT,()=>{
+        
         console.log("listing port 3000")
     });
 });
