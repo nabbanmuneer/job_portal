@@ -7,7 +7,6 @@ const regForm = () => {
     const [password, setPassword] = useState('');
     const [re_password, setRe_password] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
-
     const [validation, setValidation] = useState({
         userName: {
             status: true,
@@ -139,7 +138,7 @@ const regForm = () => {
     return (
         <div className="w-full h-screen h-lg-full bg-yellow-400  flex flex-col items-center  ">
             <div className='p-5 text-5xl' >Sign Up</div>
-            <div className='w-[30%]'>
+            <div className='w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]'>
                 <form className="w-full bg-white p-5 rounded-xl bottom-5 h-full" onSubmit={onHandleSubmit}>
                     <div className="flex items-center border-b bg-white border-gray-700 py-2">
                         <input name='userName' onBlur={nameCheck} onChange={(e) => { setUserName(e.target.value) }}
