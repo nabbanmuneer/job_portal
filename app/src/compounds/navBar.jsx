@@ -23,7 +23,7 @@ function NavBar() {
 
     return (
 
-        <div className="flex justify-between cursor-context-menu  h-30 max-w-[1240] mx-auto px-0 ">
+        <div className="flex  cursor-context-menu  h-30 max-w-[1240] mx-auto px-0  ">
             <h1 className="w-full font-bold bg-black text-yellow-400  text-2xl p-4">LetsHire</h1>
             <div className="hidden md:flex w-screen ">
                 <div className="flex flex-row justify-end text-yellow-400 w-[70%] bg-black ">
@@ -36,7 +36,7 @@ function NavBar() {
                     <div onClick={register} className="">Register</div>
                 </div>
             </div>
-            <div onClick={handlenav} className="block md:hidden  text-yellow-400  bg-black  p-5 ">
+            <div onClick={handlenav} className="block md:hidden justify-end text-yellow-400  bg-black  p-5 ">
                 {!nav ? <RxCross1 size={20} /> : <GiHamburgerMenu size={20} />}
 
             </div>
