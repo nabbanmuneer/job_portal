@@ -5,7 +5,8 @@ import './App.css'
 import NavBar from "./compounds/navBar"
 import RegForm from "./pages/regForm";
 import Login from './pages/login';
-import Choice from './pages/choice'
+import Choice from './pages/choice';
+import Banner from './compounds/banner';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
       <Route path='/' element={
         <>
         <NavBar />
+        <Banner />
         </>
       } />
     </Routes>
