@@ -7,9 +7,13 @@ import RegForm from "./pages/regForm";
 import Login from './pages/login';
 import Choice from './pages/choice';
 import Banner from './compounds/banner';
+import home from './pages/home';//not done
+import Home from "./pages/home";
+import EmployerProfile from "./pages/EmployerProfile";
+import EmprReg from './pages/emprReg';
+
 
 function App() {
-
   return (
 
     <Routes>
@@ -19,6 +23,13 @@ function App() {
           <RegForm />
         </>
       } />
+      <Route path="/employer/register" element={
+        <>
+          <NavBar />
+          <EmprReg />
+        </>
+      }
+       />
       <Route path='/login' element={
         <>
           <NavBar />
@@ -35,8 +46,18 @@ function App() {
         <>
         <NavBar />
         <Banner />
+        <Home />
         </>
       } />
+      <Route path='/employer/profile' element={
+        <>
+          <NavBar />
+          <EmployerProfile />
+        </> 
+      }
+      />
+        
+      
     </Routes>
 
   )

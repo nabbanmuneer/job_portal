@@ -40,9 +40,9 @@ function NavBar() {
                 {!nav ? <RxCross1 size={20} /> : <GiHamburgerMenu size={20} />}
 
             </div>
-            <div className={!nav ? 'block md:hidden left-0 top-0 fixed bg-yellow-400 w-[150px] h-full ease-in-out duration-500' : 'fixed left-[-100%] '} >
+            <div className={!nav ? 'block md:hidden left-0 top-0 fixed bg-yellow-400 w-[150px] h-[400px] ease-in-out duration-500 z-10' : 'fixed left-[-100%] '} >
                 <h1 className="w-full font-bold  text-black text-2xl p-4">LetsHire</h1>
-                <ul className=" uppercase border ">
+                <ul className=" uppercase border">
                     <li onClick={home} className="p-4 border-t border-b ">Home</li>
                     <li className="p-4 border-b ">Job</li>
                     <li className="p-4 border-b ">Search</li>

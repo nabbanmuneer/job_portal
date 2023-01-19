@@ -1,25 +1,67 @@
 import React from 'react';
+import { useFormik } from 'formik';
+import axios from 'axios';
 
 const Login = () => {
+    const formik = useFormik({
+        initialValues: { email: '', password: '' },
+        validate: values => {
+            const errors = {};
+            console.log("validation");
+            if (!values.email) {
+                errors.email = 'Email is required';
+            }
+            if (!values.password) {
+                errors.password = 'Password is required';
+            }
+            return errors;
+        },
+        onSubmit: async values => {
+            try {
+                console.log("vaksd",values);
+                const response = await axios.post('http://localhost:3000/employee/login', values);
+                
+                const data = response.data;
+                console.log("onsubmit");
+
+                if (!response.ok) {
+                    // handle errors
+                    formik.setErrors(data.errors);
+                } else {
+                    // handle success
+                    console.log(data);
+            console.log("chandfe");
+
+                }
+            } catch (err) {
+                // handle errors
+                console.error(err);
+            } finally {
+                formik.setSubmitting(false);
+            }
+        },
+    })
+
+
     return (
         <div className="w-full h-screen h-lg-full bg-yellow-400  flex flex-col items-center  ">
             <div className='p-5 text-5xl' >Sign In</div>
             <div className='w-[25%] '>
-                <form className="w-full bg-white p-6 rounded-xl bottom-5 h-full" >
+                <form className="w-full bg-white p-6 rounded-xl bottom-5 h-full" onSubmit={formik.handleSubmit} >
                     <div className="flex items-center border-b bg-white border-gray-700 py-4">
-                        <input name='email' 
+                        <input name='email'
                             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                            type="email" placeholder="Email" aria-label="email" 
+                            type="email" placeholder="Email" aria-label="email" value={formik.values.email} onChange={formik.handleChange}
                         />
                     </div>
                     <div className="flex items-center border-b bg-white border-gray-700 py-4">
-                        <input name='password' 
+                        <input name='password'
                             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                            type="password" placeholder="password" aria-label="password" 
+                            type="password" placeholder="password" aria-label="password" value={formik.values.password} onChange={formik.handleChange}
                         />
                     </div>
                     <button className="flex-shrink-0 bg-black hover:bg-yellow-400 border-black hover:border-yellow-400 text-sm border-4  text-white py-1 px-2 w-full mt-5 rounded"
-                        type="submit">
+                        type="submit" disabled={formik.isSubmitting} >
                         Sign In
                     </button>
                     <p className='p-3 text-gray-500'>You don't have a Accont?<span className="text-blue-400 cursor-default"><a> Sign Up</a></span></p>
