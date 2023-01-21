@@ -5,7 +5,7 @@ const Banner = () => {
     return (
         <div>
             <div className='flex flex-row'>
-                <div className='w-full md:w-[85.2%] bg-black h-[400px] md:h-[550px] relative flex justify-end items-center' >
+                <div className='w-full md:w-[85.1%] bg-black h-[400px] md:h-[550px] relative flex justify-end items-center' >
                     <div className='text-white text-[150%] md:text-[250%] lg:text-[300%] w-[40%]' >
                         <p>FIND A </p><p> PERFECT JOB </p> <p>FOR YOU </p>
                     </div>
@@ -23,7 +23,7 @@ const Banner = () => {
                             <input className='w-full h-full  bg-slate-300 p-2' placeholder='Company' />
                         </div>
                         <div className=' w-[25%] '>
-                            <button className='w-full h-full  bg-yellow-400  p-2'>SEARCH</button>
+                            <button className='w-full h-full  bg-yellow-400 text-[60%] font-semibold md:text-[100%] p-2'>SEARCH</button>
                         </div>
                     </div>
                 </div>

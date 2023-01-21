@@ -1,5 +1,5 @@
 import React from 'react';
-import JobCat from '../compounds/jobCat';
+import JobCat from '../component/jobCat';
 const Home = () => {
     return (
         <div className=''>

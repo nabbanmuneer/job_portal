@@ -19,7 +19,7 @@ const choice = () => {
                     <img className='' src={empoloyee} alt="empoyee" />
                 </div>
             </div>
-            <div className='bg-black text-white flex items-center  justify-center'>
+            <div onClick={()=>Navigate('/employer/register')} className='bg-black text-white flex items-center  justify-center'>
                 <div className='border-8 border-yellow-400 flex flex-col items-center  w-[40%] md:w-[60%] '>
                     <div className='text-center text-3xl font-bold text-white'>Employer</div>
                     <img className=' ' src={empoloyer} width='80%' alt="empoyer" />

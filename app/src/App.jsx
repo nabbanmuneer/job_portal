@@ -1,17 +1,15 @@
 
 import { Route, Routes } from "react-router-dom";
-import reactLogo from './assets/react.svg'
 import './App.css'
-import NavBar from "./compounds/navBar"
+import NavBar from "./component/navBar"
 import RegForm from "./pages/regForm";
 import Login from './pages/login';
 import Choice from './pages/choice';
-import Banner from './compounds/banner';
-import home from './pages/home';//not done
+import Banner from './component/banner';
 import Home from "./pages/home";
 import EmployerProfile from "./pages/EmployerProfile";
 import EmprReg from './pages/emprReg';
-
+import EmployeeProfile from "./pages/employeeProfile";
 
 function App() {
   return (
@@ -56,7 +54,13 @@ function App() {
         </> 
       }
       />
-        
+        <Route path='/employee/profile' element={
+        <>
+          <NavBar />
+          <EmployeeProfile />
+        </> 
+      }
+      />
       
     </Routes>
 

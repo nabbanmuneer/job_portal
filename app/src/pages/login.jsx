@@ -1,37 +1,46 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+    const navigate = useNavigate();
+    // const signIn = ()=>{
+    //     navigate('/');
+    // }
+    const validate = values => {
+        const errors = {};
+        console.log("validation");
+        if (!values.email) {
+            errors.email = 'Email is Required ';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            errors.email = 'Invalid email address';
+        }
+        if (!values.password) {
+            errors.password = 'Password is required';
+        }
+        return errors;
+    }
     const formik = useFormik({
         initialValues: { email: '', password: '' },
-        validate: values => {
-            const errors = {};
-            console.log("validation");
-            if (!values.email) {
-                errors.email = 'Email is required';
-            }
-            if (!values.password) {
-                errors.password = 'Password is required';
-            }
-            return errors;
-        },
+        validate,
         onSubmit: async values => {
             try {
-                console.log("vaksd",values);
+                console.log("vaksd", values);
                 const response = await axios.post('http://localhost:3000/employee/login', values);
-                
+
                 const data = response.data;
                 console.log("onsubmit");
-
-                if (!response.ok) {
+                console.log(data.status);
+                if (data.status != true) {
                     // handle errors
                     formik.setErrors(data.errors);
+                    console.log(data.errors);
                 } else {
                     // handle success
                     console.log(data);
-            console.log("chandfe");
-
+                    console.log("chandfe");
+                    navigate('/');
                 }
             } catch (err) {
                 // handle errors
@@ -46,7 +55,7 @@ const Login = () => {
     return (
         <div className="w-full h-screen h-lg-full bg-yellow-400  flex flex-col items-center  ">
             <div className='p-5 text-5xl' >Sign In</div>
-            <div className='w-[25%] '>
+            <div className='w-[60%] sm:w-[40%] md:w-[35%] lg:w-[25%]  '>
                 <form className="w-full bg-white p-6 rounded-xl bottom-5 h-full" onSubmit={formik.handleSubmit} >
                     <div className="flex items-center border-b bg-white border-gray-700 py-4">
                         <input name='email'
@@ -54,14 +63,16 @@ const Login = () => {
                             type="email" placeholder="Email" aria-label="email" value={formik.values.email} onChange={formik.handleChange}
                         />
                     </div>
+                    {formik.errors?.email ? <div>{formik.errors.email}</div> : null}
                     <div className="flex items-center border-b bg-white border-gray-700 py-4">
                         <input name='password'
                             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                             type="password" placeholder="password" aria-label="password" value={formik.values.password} onChange={formik.handleChange}
                         />
+
                     </div>
                     <button className="flex-shrink-0 bg-black hover:bg-yellow-400 border-black hover:border-yellow-400 text-sm border-4  text-white py-1 px-2 w-full mt-5 rounded"
-                        type="submit" disabled={formik.isSubmitting} >
+                        type="submit" disabled={formik.isSubmitting}  >
                         Sign In
                     </button>
                     <p className='p-3 text-gray-500'>You don't have a Accont?<span className="text-blue-400 cursor-default"><a> Sign Up</a></span></p>

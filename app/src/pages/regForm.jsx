@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const regForm = () => {
+    const navigate = useNavigate();
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -114,7 +117,7 @@ const regForm = () => {
             return true;
         }
     };
-
+    let status = "false"
     const onHandleSubmit = (e) => {
         const user = { email, userName, phoneNo, password };
         e.preventDefault();
@@ -128,8 +131,16 @@ const regForm = () => {
             mobileCheck() &&
             password === re_password
         ) {
-            const response = axios.post("http://localhost:3000/employee/register", user);
+            const response = axios.post("http://localhost:3000/employee/register", user).
+            then(res=>{
+                if(res.data.status == true){
+                    // navigate('/login');
+                    status = "true";
+                    console.log(status);
+                }
+            })
             console.log("data", email, userName, phoneNo, password);
+            
         } else {
             console.log("Error");
         }
@@ -196,6 +207,15 @@ const regForm = () => {
                     <p className='p-3'>You Already have a Accon?<span className="text-blue-400 cursor-default"><a>Log in</a></span></p>
                 </form>
             </div>
+            {(status == "true" ?
+                    <div className='w-40 h-40 bg-white'>
+
+                    </div>
+            :
+                <div className='w-40 h-40 bg-neutral-500'>
+
+                </div>
+            )}
         </div>
     )
 }
