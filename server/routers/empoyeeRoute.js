@@ -4,6 +4,8 @@ const router = express.Router();
 const employeeControllers = require('../controllers/employeeControllers');
 
 router.post('/register', employeeControllers.employeeRegister)
-
+router.post('/otpverify',employeeControllers.otpVerify)
 router.post("/login",employeeControllers.login)
+
+
 module.exports = router;

@@ -23,6 +23,10 @@ const employeeSchema = new Schema(
     password: {
       type: String,
       trim: true,
+    },
+    position: {
+      type: String,
+      trim: true,
     }
   },
   { timestamps: true }

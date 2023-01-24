@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import OtpInput from 'react-otp-input';
 
+// import Otp from '../component/otp';
 
 const regForm = () => {
+
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
+    const [statue, setstatus] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [re_password, setRe_password] = useState('');
     const [phoneNo, setPhoneNo] = useState('');
+    const [status, setstatues] = useState(false)
+    const [otp, setotp] = useState('');
+    const [msg, setmsg] = useState('');
     const [validation, setValidation] = useState({
         userName: {
             status: true,
@@ -31,7 +38,33 @@ const regForm = () => {
             status: true,
             message: "",
         },
+        otp: {
+            statue: true,
+            message: "",
+        },
     });
+    const handleChange = (enteredOtp) => {
+        setotp(enteredOtp);
+    };
+    const otpCheck = () => {
+        if (otp.length == 4) {
+            setValidation((prevState) => ({
+                ...prevState,
+                otp: {
+                    status: true,
+                    message: "Enter the 4 digits",
+                },
+            }))
+        } else {
+            setValidation((prevState) => ({
+                ...prevState,
+                otp: {
+                    status: true,
+                    message: "",
+                },
+            }))
+        }
+    };
     const nameCheck = () => {
         if (userName.length < 3) {
             setValidation((prevState) => ({
@@ -117,9 +150,10 @@ const regForm = () => {
             return true;
         }
     };
-    let status = "false"
+
     const onHandleSubmit = (e) => {
         const user = { email, userName, phoneNo, password };
+        console.log("otp no", phoneNo);
         e.preventDefault();
         nameCheck();
         passwordCheck();
@@ -132,19 +166,38 @@ const regForm = () => {
             password === re_password
         ) {
             const response = axios.post("http://localhost:3000/employee/register", user).
-            then(res=>{
-                if(res.data.status == true){
-                    // navigate('/login');
-                    status = "true";
-                    console.log(status);
-                }
-            })
+                then(res => {
+                    if (res.data.status == true) {
+                        setstatus(true)
+                        setmsg("otp sended");
+                        console.log("true otp sent");
+                    } else {
+                        console.log("error");
+                        setmsg("invalid email or password");
+                    }
+
+                })
             console.log("data", email, userName, phoneNo, password);
-            
+
         } else {
             console.log("Error");
         }
     };
+
+    const otpverify = (e) => {
+        const user = { email, userName, phoneNo, password, otp };
+        e.preventDefault();
+        console.log("verify", phoneNo, otp)
+        const response = axios.post("http://localhost:3000/employee/otpverify", user).
+            then(res => {
+                if (res.data.status == true) {
+                    navigate('/login');
+                    console.log("data", email, userName, phoneNo, password);
+                } else {
+                    console.log("error");
+                }
+            });
+    }
 
     return (
         <div className="w-full h-screen h-lg-full bg-yellow-400  flex flex-col items-center  ">
@@ -200,22 +253,35 @@ const regForm = () => {
                             {validation.passwordResult.message}
                         </p>
                     )}
+
                     <button className="flex-shrink-0 bg-black hover:bg-yellow-400 border-black hover:border-yellow-400 text-sm border-4  text-white py-1 px-2 w-full mt-3 rounded"
                         type="submit">
                         Sign Up
                     </button>
-                    <p className='p-3'>You Already have a Accon?<span className="text-blue-400 cursor-default"><a>Log in</a></span></p>
+                    <p className='p-3 text-neutral-600'>You Already have a Accont?<span className="text-blue-400 cursor-default"><a>Log in</a></span></p>
                 </form>
             </div>
-            {(status == "true" ?
-                    <div className='w-40 h-40 bg-white'>
-
+            {
+                statue ?
+                    <div className='mt-5 w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%] p-4 flex flex-col rounded-xl border-3 items-center '>
+                        <div className='text-white'> Verify OTP</div>
+                        <div>
+                            <OtpInput className='text-black ml-5' value={otp} onChange={handleChange}
+                                numInputs={4}
+                                separator={<span className='m-2  p-1 text-xl text-white'>-</span>}
+                                isInputNum={true}
+                            />
+                        </div>
+                        <div>
+                            <button className='bg-neutral-900 text-white px-3 rounded-xl' onClick={otpverify}>SUBMIT</button>
+                        </div>
                     </div>
-            :
-                <div className='w-40 h-40 bg-neutral-500'>
-
-                </div>
-            )}
+                    :
+                    <div></div>
+            }
+            <div className="flex items-center border-b  border-gray-700 py-2 ">
+                <p className='text-red-900'>{msg}</p>
+            </div>
         </div>
     )
 }

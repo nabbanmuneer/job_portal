@@ -1,11 +1,11 @@
 
 import { Route, Routes } from "react-router-dom";
 import './App.css'
-import NavBar from "./component/navBar"
+import NavBar from "./components/navBar"
 import RegForm from "./pages/regForm";
 import Login from './pages/login';
 import Choice from './pages/choice';
-import Banner from './component/banner';
+import Banner from './components/banner';
 import Home from "./pages/home";
 import EmployerProfile from "./pages/EmployerProfile";
 import EmprReg from './pages/emprReg';
