@@ -12,11 +12,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
 
-const employeeRoute = require('./routers/empoyeeRoute');
+const employeeRoute = require('./routers/employeeRoute');
+const employerRoute=require('./routers/employerRoute')
 
 app.use("/employee",employeeRoute);
-
-
+app.use("/employer",employerRoute)
+mongoose.set("strictQuery", false);
 mongoose.connect(process.env.CONNECTDB).then(()=>{
     mongoose.set('strictQuery', false);
     app.listen(process.env.PORT,()=>{

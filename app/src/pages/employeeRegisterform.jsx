@@ -5,7 +5,7 @@ import OtpInput from 'react-otp-input';
 
 // import Otp from '../component/otp';
 
-const regForm = () => {
+const employeeRegisterform = () => {
 
     const navigate = useNavigate();
     const [userName, setUserName] = useState('');
@@ -66,7 +66,8 @@ const regForm = () => {
         }
     };
     const nameCheck = () => {
-        if (userName.length < 3) {
+        let letters = /^[A-Za-z]+$/
+        if (userName.length < 3 ) {
             setValidation((prevState) => ({
                 ...prevState,
                 userName: {
@@ -286,4 +287,4 @@ const regForm = () => {
     )
 }
 
-export default regForm
+export default employeeRegisterform

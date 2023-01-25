@@ -41,15 +41,15 @@ const otpVerify = async (req, res) => {
             .verificationChecks.create({ to: `+91${mobile}`, code: otp });
         console.log("verifcation ckeck otp  ", verification_check.status);
         console.log("checking areaw", verification_check);
-        if (verification_check.status == "approved") 
-        {
+        if (verification_check.status == "approved") {
             let position = "employee";
             let { userName, email, password } = req.body;
-            const data = new employeeModel({ phoneNo: phoneNo, userName: userName, email: email, password: password, position: position })
-            const salt = await bcrypt.genSalt(10)
-            data.password = await bcrypt.hash(otp.password, salt);
+            const data = new employeeModel({ phoneNo: phoneNo, userName: userName, email: email, password: password, position: position });
+            const salt = await bcrypt.genSalt(10);
+            data.password = await bcrypt.hash(data.password, salt);
             data.save();
             console.log("otp verified");
+            res.json({ status: true })
         }
     } catch (error) {
         console.log(error);
@@ -60,12 +60,3 @@ exports.otpVerify = otpVerify
 
 
 
-const login = async (req, res) => {
-    try {
-        console.log(req.body);
-        res.json({ status: true });
-    } catch (error) {
-        console.log(error);
-    }
-}
-exports.login = login

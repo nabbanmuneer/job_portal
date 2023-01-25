@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const employeeSchema = new Schema(
+const employerSchema = new Schema(
   {
-    userName: {
+    companyName: {
       type: String,
       trim: true,
     },
@@ -32,5 +32,5 @@ const employeeSchema = new Schema(
   { timestamps: true }
 );
 
-const employee = mongoose.model("employee", employeeSchema);
-module.exports = employee;
+const employer = mongoose.model("employer", employerSchema);
+module.exports = employer;

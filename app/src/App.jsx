@@ -2,32 +2,31 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css'
 import NavBar from "./components/navBar"
-import RegForm from "./pages/regForm";
+import EmployeeRegisterform from "./pages/employeeRegisterform";
 import Login from './pages/login';
 import Choice from './pages/choice';
 import Banner from './components/banner';
 import Home from "./pages/home";
 import EmployerProfile from "./pages/EmployerProfile";
-import EmprReg from './pages/emprReg';
+import EmployerRegisterform from './pages/employerRegisterform';
 import EmployeeProfile from "./pages/employeeProfile";
 
 function App() {
   return (
-
     <Routes>
       <Route path="/employee/register" element={
         <>
           <NavBar />
-          <RegForm />
+          <EmployeeRegisterform />
         </>
       } />
       <Route path="/employer/register" element={
         <>
           <NavBar />
-          <EmprReg />
+          <EmployerRegisterform />
         </>
       }
-       />
+      />
       <Route path='/login' element={
         <>
           <NavBar />
@@ -42,26 +41,26 @@ function App() {
       } />
       <Route path='/' element={
         <>
-        <NavBar />
-        <Banner />
-        <Home />
+          <NavBar />
+          <Banner />
+          <Home />
         </>
       } />
       <Route path='/employer/profile' element={
         <>
           <NavBar />
           <EmployerProfile />
-        </> 
+        </>
       }
       />
-        <Route path='/employee/profile' element={
+      <Route path='/employee/profile' element={
         <>
           <NavBar />
           <EmployeeProfile />
-        </> 
+        </>
       }
       />
-      
+
     </Routes>
 
   )
