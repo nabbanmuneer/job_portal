@@ -1,15 +1,11 @@
 const employeeModel = require('../models/employeeModel')
 const employerModel = require('../models/employerModel');
-const bcrypt = require('bcrypt');
+const JWT = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const dotenv = require('dotenv');
+dotenv.config();
 
-
-const login = async (req, res) => {
-    try {
-        console.log(req.body);
-        
-        res.json({ status: true });
-    } catch (error) {
-        console.log(error);
-    }
+const dataGet = async(req,res)=>{
+    // console.log("log" ,req.header);
 }
-exports.login = login
+exports.dataGet=dataGet;

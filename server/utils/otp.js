@@ -49,7 +49,7 @@ exports.smsOtp = smsOtp;
 
 const otpValidiation = async (email, otp) => {
   try {
-    const otpData = await otpModel.findOne({ email: email })
+    const otpData = await otpModel.findOne({ email: email });
     console.log("otp validation data", otpData)
     let validate = bcrypt.compare(otp, otpData.otp)
     if (validate) {

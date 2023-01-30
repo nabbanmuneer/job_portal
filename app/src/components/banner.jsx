@@ -1,11 +1,14 @@
 import React from 'react';
 import slide from '../assets/slider-img.png';
 
+
 const Banner = () => {
+
+
     return (
         <div>
             <div className='flex flex-row'>
-                <div className='w-full md:w-[85.1%] bg-black h-[400px] md:h-[550px] relative flex justify-end items-center' >
+                <div className='w-full md:w-[85.2%] lg:w-[85.1%] bg-black h-[400px] md:h-[550px] relative flex justify-end items-center' >
                     <div className='text-white text-[150%] md:text-[250%] lg:text-[300%] w-[40%]' >
                         <p>FIND A </p><p> PERFECT JOB </p> <p>FOR YOU </p>
                     </div>

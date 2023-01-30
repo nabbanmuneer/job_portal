@@ -1,6 +1,32 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser,selectCurrentToken } from '../features/auth/authSlice';
+
 import JobCat from '../components/jobCat';
+import axios from 'axios';
 const Home = () => {
+
+    const user = useSelector(selectCurrentUser)
+    const token = useSelector(selectCurrentToken)
+    console.log("home access token",user,token);
+    const home = user ? `welcome ${user}!` : 'home!'
+    // const tokkenAbbr = `${token.slice(0, 9)}...`;
+    useEffect(() => {
+        if(user){
+        axios
+          .post("http://localhost:3000/home/get")
+          .then((response) => {
+            setUserResult(response.data);
+    
+            return response;
+          })
+          .then((response) => {
+            // setSearchResult(response.data);
+            console.log(response.data);
+          });
+        }
+      }, []);
+    
     return (
         <div className=''>
             <div className='w-full  h-[500px] flex justify-center items-center relative flex-col'  >
