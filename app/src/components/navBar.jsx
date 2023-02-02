@@ -5,14 +5,17 @@ import { useSelector } from "react-redux";
 import {
   selectCurrentUser,
   selectCurrentToken,
+  selectCurrentId,
+  selectCurrentRole,
 } from "../features/auth/authSlice";
 
 function NavBar() {
   const Navigate = useNavigate();
   const [nav, setNav] = useState("nav");
+  const role = useSelector(selectCurrentRole);
+  const id = useSelector(selectCurrentId);
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
-  console.log(user.position);
   const handlenav = () => {
     setNav(!nav);
   };
@@ -26,20 +29,20 @@ function NavBar() {
     Navigate("/choice");
   };
   const profile = () => {
-    if (user.position == "employer") {
+    if (role == "employer") {
       Navigate("/employer/profile");
-    } else if (user.position == "employee") {
+    } else if (role == "employee") {
       Navigate("/employee/profile");
     }
   };
   return (
     <div className="flex  cursor-context-menu  h-30 max-w-[1240] mx-auto px-0  ">
-      <h1 className="w-full font-bold bg-black text-yellow-400  text-2xl p-4">
+      <h1 onClick={home} className="w-full font-bold bg-black text-yellow-400  text-2xl p-4">
         LetsHire
       </h1>
       <div className="hidden md:flex w-screen ">
         <div className="flex flex-row justify-end text-yellow-400 w-[70%] bg-black ">
-          <div className="p-3">Home</div>
+          <div className="p-3" onClick={home}>Home</div>
           <div className="p-3">Job</div>
           <div className="p-3">Search</div>
         </div>
@@ -55,7 +58,7 @@ function NavBar() {
         ) : (
           <div className="p-3 flex flex-row justify-around text-black bg-yellow-400 font-semibold w-[30%] ">
             <div onClick={profile} className="">
-              {user.userName}
+              {user}
             </div>
             <div onClick={register} className="">
               LogOut

@@ -59,4 +59,23 @@ const otpVerify = async (req, res) => {
 exports.otpVerify = otpVerify
 
 
+const employeeUpdate = async (req, res) => {
+    try {
+        let { userName, place, qualification, resume, profilePic } = req.body;
+        console.log("Update", req.body);
+        const data =await employeeModel.updateMany({
+            userName:userName,
+            place:place,
+            qualification:qualification,
+            resume:resume,
+            profilePic:profilePic
+
+        })
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.employeeUpdate = employeeUpdate;
+
 

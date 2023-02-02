@@ -30,7 +30,7 @@ const Banner = () => {
                         </div>
                     </div>
                 </div>
-                <div className='hidden md:block bg-yellow-400 w-[14.8%]  h-[550px]'>
+                <div className='hidden md:block bg-yellow-400 w-[14.9%]  h-[550px]'>
 
                 </div>
                 

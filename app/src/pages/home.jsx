@@ -1,20 +1,23 @@
 import React,{useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser,selectCurrentToken } from '../features/auth/authSlice';
+import { selectCurrentUser,selectCurrentToken,selectCurrentId,selectCurrentRole } from '../features/auth/authSlice';
 
 import JobCat from '../components/jobCat';
 import axios from 'axios';
 const Home = () => {
-
-    const user = useSelector(selectCurrentUser)
-    const token = useSelector(selectCurrentToken)
-    console.log("home access token",user,token);
+    const role = useSelector(selectCurrentRole);
+    const id = useSelector(selectCurrentId);
+    const user = useSelector(selectCurrentUser);
+    const token = useSelector(selectCurrentToken);
+    console.log("home access token",user,"user",role,"token",id);
     const home = user ? `welcome ${user}!` : 'home!'
     // const tokkenAbbr = `${token.slice(0, 9)}...`;
     useEffect(() => {
         if(user){
         axios
-          .post("http://localhost:3000/home/get")
+          .post("http://localhost:3000/home/get", user, {
+            headers: { token },
+          })
           .then((response) => {
             setUserResult(response.data);
     
@@ -24,9 +27,8 @@ const Home = () => {
             // setSearchResult(response.data);
             console.log(response.data);
           });
-        }
-      }, []);
-    
+        }}
+    )
     return (
         <div className=''>
             <div className='w-full  h-[500px] flex justify-center items-center relative flex-col'  >

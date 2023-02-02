@@ -7,29 +7,48 @@ const employeeSchema = new Schema(
     userName: {
       type: String,
       trim: true,
+      require: true
     },
 
     phoneNo: {
       type: Number,
       unique: true,
       trim: true,
+      require: true
     },
 
     email: {
       type: String,
       unique: true,
       trim: true,
+      require: true
     },
     password: {
       type: String,
       trim: true,
+      require: true
     },
     position: {
       type: String,
       trim: true,
-    }
-  },
-  { timestamps: true }
+    },
+    place: {
+      type: String,
+      trim: true,
+    },
+    qualification: {
+      type: String,
+      trim: true,
+    },
+    profilePic: {
+      type: String,
+      trim: true,
+    },
+    resume: {
+      type: String,
+      trim: true,
+    },
+  },{ timestamps: true }
 );
 
 const employee = mongoose.model("employee", employeeSchema);
