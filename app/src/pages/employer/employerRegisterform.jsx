@@ -5,16 +5,16 @@ import axios from "axios";
 // import {useformik} from 'formik';
 const employerRegisterform = () => {
   const navigate = useNavigate();
-  const [companyName, setcompanyName] = useState("");
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [re_password, setRe_password] = useState("");
-  const [contactNo, setcontactNo] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
   const [status, setstatus] = useState(false);
   const [otp, setotp] = useState("");
   const [msg, setmsg] = useState("");
   const [validation, setValidation] = useState({
-    companyName: {
+    userName: {
       status: true,
       message: "",
     },
@@ -26,7 +26,7 @@ const employerRegisterform = () => {
       status: true,
       message: "",
     },
-    contactNo: {
+    phoneNo: {
       status: true,
       message: "",
     },
@@ -62,10 +62,10 @@ const employerRegisterform = () => {
     }
   };
   const nameCheck = () => {
-    if (companyName.length < 3) {
+    if (userName.length < 3) {
       setValidation((prevState) => ({
         ...prevState,
-        companyName: {
+        userName: {
           status: false,
           message: "name must be more than 2 character",
         },
@@ -74,7 +74,7 @@ const employerRegisterform = () => {
     } else {
       setValidation((prevState) => ({
         ...prevState,
-        companyName: {
+        userName: {
           status: true,
           message: "",
         },
@@ -104,10 +104,10 @@ const employerRegisterform = () => {
     }
   };
   const mobileCheck = () => {
-    if (contactNo.length !== 10) {
+    if (phoneNo.length !== 10) {
       setValidation((prevState) => ({
         ...prevState,
-        contactNo: {
+        phoneNo: {
           status: false,
           message: "invalid mobile number",
         },
@@ -116,7 +116,7 @@ const employerRegisterform = () => {
     } else {
       setValidation((prevState) => ({
         ...prevState,
-        contactNo: {
+        phoneNo: {
           status: true,
           message: "",
         },
@@ -148,7 +148,7 @@ const employerRegisterform = () => {
   };
 
   const onHandleSubmit = (e) => {
-    const user = { email, companyName, contactNo, password, re_password };
+    const user = { email, userName, phoneNo, password, re_password };
     console.log("onHandleSubmit", user);
     e.preventDefault();
     nameCheck();
@@ -166,7 +166,7 @@ const employerRegisterform = () => {
         .then((res) => {
           console.log("res in promis", res.data.status);
           if (res.data.status == true) {
-            console.log("res.data", email, companyName, contactNo, password);
+            console.log("res.data", email, userName, phoneNo, password);
             setstatus(true);
           }
         });
@@ -175,7 +175,7 @@ const employerRegisterform = () => {
     }
   };
   const otpverify = (e) => {
-    const user = { email, companyName, contactNo, password, otp };
+    const user = { email, userName, phoneNo, password, otp };
     e.preventDefault();
     console.log("otpverify", email, otp);
     const response = axios
@@ -199,21 +199,21 @@ const employerRegisterform = () => {
         >
           <div className="flex items-center border-b bg-white border-gray-700 py-2">
             <input
-              name="companyName"
+              name="userName"
               onBlur={nameCheck}
               onChange={(e) => {
-                setcompanyName(e.target.value);
+                setUserName(e.target.value);
               }}
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
-              placeholder="companyName"
-              aria-label="companyName"
-              value={companyName}
+              placeholder="userName"
+              aria-label="userName"
+              value={userName}
             />
           </div>
-          {!validation.companyName.status && (
+          {!validation.userName.status && (
             <p className="text-red-700 mt-6 ">
-              {validation.companyName.message}
+              {validation.userName.message}
             </p>
           )}
           <div className="flex items-center border-b bg-white border-gray-700 py-2 ">
@@ -232,20 +232,20 @@ const employerRegisterform = () => {
 
           <div className="flex items-center border-b bg-white border-gray-700 py-2 ">
             <input
-              name="contactNo"
+              name="phoneNo"
               onChange={(e) => {
-                setcontactNo(e.target.value);
+                setPhoneNo(e.target.value);
               }}
               onBlur={mobileCheck}
               className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
               placeholder="Phone no"
-              aria-label="contactNo"
-              value={contactNo}
+              aria-label="phoneNo"
+              value={phoneNo}
             />
           </div>
-          {!validation.contactNo.status && (
-            <p className="text-red-700 mt-6 ">{validation.contactNo.message}</p>
+          {!validation.phoneNo.status && (
+            <p className="text-red-700 mt-6 ">{validation.phoneNo.message}</p>
           )}
           <div className="flex items-center border-b bg-white border-gray-700 py-2 ">
             <input

@@ -12,14 +12,12 @@ const employeeSchema = new Schema(
 
     phoneNo: {
       type: Number,
-      unique: true,
       trim: true,
       require: true
     },
 
     email: {
       type: String,
-      unique: true,
       trim: true,
       require: true
     },

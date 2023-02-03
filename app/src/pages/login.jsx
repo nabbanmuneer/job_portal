@@ -33,11 +33,11 @@ const Login = () => {
     initialValues: { email: "", password: "" },
     validate,
     onSubmit: async (values) => {
-      try {
+      // try {
         let { email, password } = values;
         console.log("login th value", values);
         const userData = await login({ email, password }).unwrap();
-
+        console.log(userData);
         console.log("userData",userData.accessToken);
         // console.log("onsubmit");
         // console.log(data.accessToken);
@@ -52,12 +52,12 @@ const Login = () => {
           console.log("chandfe");
           navigate("/");
         }
-      } catch (err) {
-        // handle errors
-        console.log(err);
-      } finally {
-        formik.setSubmitting(false);
-      }
+      // } catch (err) {
+      //   // handle errors
+      //   console.log(err);
+      // } finally {
+      //   formik.setSubmitting(false);
+      // }
     },
   });
 

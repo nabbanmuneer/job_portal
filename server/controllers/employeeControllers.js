@@ -46,7 +46,7 @@ const otpVerify = async (req, res) => {
             let { userName, email, password } = req.body;
             const data = new employeeModel({ phoneNo: phoneNo, userName: userName, email: email, password: password, position: position });
             const salt = await bcrypt.genSalt(10);
-            data.password = await bcrypt.hash(data.password, salt);
+            data.password = bcrypt.hash(data.password, salt);
             data.save();
             console.log("otp verified");
             res.json({ status: true })
@@ -61,17 +61,19 @@ exports.otpVerify = otpVerify
 
 const employeeUpdate = async (req, res) => {
     try {
-        let { userName, place, qualification, resume, profilePic } = req.body;
+        let { userName, place, qualification, resume, profilePic,id } = req.body;
         console.log("Update", req.body);
-        const data =await employeeModel.updateMany({
-            userName:userName,
-            place:place,
-            qualification:qualification,
-            resume:resume,
-            profilePic:profilePic
+        const data = await employeeModel.findByIdAndUpdate(id, {
+            $set: {
+                userName: userName,
+                place: place,
+                qualification: qualification,
+                resume: resume,
+                profilePic: profilePic
 
-        })
-        console.log(data);
+            }
+        },{new: true})
+        console.log("controller data",data);
     } catch (error) {
         console.log(error);
     }

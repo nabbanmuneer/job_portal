@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { GiHamburgerMenu, RxCross1 } from "react-icons/all";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   selectCurrentUser,
   selectCurrentToken,
   selectCurrentId,
   selectCurrentRole,
 } from "../features/auth/authSlice";
-
+import { logOut } from "../features/auth/authSlice";
 function NavBar() {
   const Navigate = useNavigate();
   const [nav, setNav] = useState("nav");
   const role = useSelector(selectCurrentRole);
-  const id = useSelector(selectCurrentId);
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
+  const dispatch = useDispatch();
   const handlenav = () => {
     setNav(!nav);
   };
@@ -37,12 +38,17 @@ function NavBar() {
   };
   return (
     <div className="flex  cursor-context-menu  h-30 max-w-[1240] mx-auto px-0  ">
-      <h1 onClick={home} className="w-full font-bold bg-black text-yellow-400  text-2xl p-4">
+      <h1
+        onClick={home}
+        className="w-full font-bold bg-black text-yellow-400  text-2xl p-4"
+      >
         LetsHire
       </h1>
       <div className="hidden md:flex w-screen ">
         <div className="flex flex-row justify-end text-yellow-400 w-[70%] bg-black ">
-          <div className="p-3" onClick={home}>Home</div>
+          <div className="p-3" onClick={home}>
+            Home
+          </div>
           <div className="p-3">Job</div>
           <div className="p-3">Search</div>
         </div>
@@ -60,7 +66,12 @@ function NavBar() {
             <div onClick={profile} className="">
               {user}
             </div>
-            <div onClick={register} className="">
+            <div
+              onClick={(e) => {
+                dispatch(logOut());
+              }}
+              className=""
+            >
               LogOut
             </div>
           </div>

@@ -1,4 +1,5 @@
 const employeeModel = require('../models/employeeModel');
+const employerModel = require('../models/employerModel')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -10,7 +11,16 @@ const handleLogin = async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ 'message': 'Username and password are required.' });
   }
-  const foundUser = await employeeModel.findOne({ email: email }).exec();
+  let foundUser = '';
+
+  const employee = await employeeModel.findOne({ email: email }).exec();
+  const employer = await employerModel.findOne({ email: email }).exec();
+  console.log("data emple", employee , "data emlor",employer);
+  if(employee){
+    foundUser = employee;
+  }else if(employer){
+    foundUser = employer;
+  }
   if (!foundUser) return res.sendStatus(401); //Unauthorized 
   // evaluate password 
   const match = bcrypt.compare(password, foundUser.password);

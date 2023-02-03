@@ -8,7 +8,7 @@ import {
   selectCurrentToken,
 } from "../../features/auth/authSlice";
 
-const employeeUpdate = () => {
+const employeeUpdate = ({ setIsOpen }) => {
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
   const navigate = useNavigate();
@@ -18,7 +18,9 @@ const employeeUpdate = () => {
   const [phoneNo, setPhoneNo] = useState("");
   const [qualification, setQualification] = useState("");
   const [image, setImage] = useState("");
-  const [cvData, setCvData] = useState("");
+  const [pdf, setPdf] = useState("");
+  const [id, setId] = useState(' ');
+  // ---------------------------for details--------------------------
   useEffect(() => {
     console.log("error", user, token);
     if (token) {
@@ -35,6 +37,9 @@ const employeeUpdate = () => {
             setEmail(data.email);
             setPlace(data.place);
             setQualification(data.qualification);
+            setImage(data.profilePic)
+            setPdf(data.resume);
+            setId(data._id);
           }
         });
     }
@@ -73,62 +78,67 @@ const employeeUpdate = () => {
     nameCheck();
     let profilePic = "";
     let resume = "";
-    // it's for profile image
-    const data = new FormData();
-    data.append("file", image);
-    data.append(
-      "upload_preset",
-      `${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}`
-    );
-    data.append(
-      "cloud_name",
-      `${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}`
-    );
-    await axios
-      .post(
-        `https://api.cloudinary.com/v1_1/${
-          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-        }/image/upload`,
-        data
-      )
-      .then((response) => {
-        profilePic = response.data.secure_url;
-        console.log("url cloudinary;", profilePic);
-      })
-      .catch((error) => {
-        console.error(error);
-        return "error";
-      });
+    //------------------------- it's for profile image-------------------------------
+    if (image) {
+      const data = new FormData();
+      data.append("file", image);
+      data.append(
+        "upload_preset",
+        `${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}`
+      );
+      data.append(
+        "cloud_name",
+        `${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}`
+      );
+      await axios
+        .post(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+          }/image/upload`,
+          data
+        )
+        .then((response) => {
+          profilePic = response.data.secure_url;
+          console.log("url photo cloudinary;", profilePic);
+        })
+        .catch((error) => {
+          console.error(error);
+          return "error";
+        });
+    }
     //   here over
-    // how to start resume
+    //------------------------- how to start pdf-----------------------------------------------
     console.log("profileURL", profilePic);
-    const resumeData = new FormData();
-    resumeData.append("file", cvData);
-    resumeData.append(
-      "upload_preset",
-      `${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}`
-    );
-    resumeData.append(
-      "cloud_name",
-      `${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}`
-    );
-    await axios
-      .post(
-        `https://api.cloudinary.com/v1_1/${
-          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
-        }/image/upload`,
-        resumeData
-      )
-      .then((response) => {
-        resume = response.data.secure_url;
-        console.log("url cloudinary;", resume);
-      })
-      .catch((error) => {
-        console.error(error);
-        return "error";
-      });
-    const user = { userName, place, qualification, profilePic, resume };
+    if (pdf) {
+      const resumeData = new FormData();
+      resumeData.append("file", pdf);
+      resumeData.append(
+        "upload_preset",
+        `${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}`
+      );
+      resumeData.append(
+        "cloud_name",
+        `${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}`
+      );
+      await axios
+        .post(
+          `https://api.cloudinary.com/v1_1/${
+            import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+          }/image/upload`,
+          resumeData
+        )
+        .then((response) => {
+          resume = response.data.secure_url;
+          console.log("url of pdf cloudinary;", resume);
+        })
+        .catch((error) => {
+          console.error(error);
+          return "error";
+        });
+    }
+    const user = { userName, place, qualification, profilePic, resume ,id };
     console.log("data", user);
+    //=============================Sumbition to controllers===============================
     if (nameCheck()) {
       const response = axios
         .post("http://localhost:3000/employee/update", user)
@@ -139,19 +149,30 @@ const employeeUpdate = () => {
             console.log("error");
           }
         });
-      console.log("data log", place, userName, qualification, profilePic, resume);
+      console.log(
+        "data log",
+        place,
+        userName,
+        qualification,
+        profilePic,
+        pdf
+      );
+      setIsOpen(false);
     } else {
       console.log("Error");
     }
   };
 
   return (
-    <div className="w-full h-screen h-lg-full bg-opacity-75 bg-black  flex flex-col items-center ">
+    <>
+    <div className="w-full h-screen h-lg-full bg-opacity-75 bg-black inset-0 fixed flex flex-col items-center" >
+      <div className="text-white font-extrabold self-end cursor-pointer" onClick={() => setIsOpen(false)}>close</div>
       <div className="p-5 text-3xl">Profile Update</div>
       <div className="w-[70%] sm:w-[50%] md:w-[40%] lg:w-[30%]">
         <form
           className="w-full bg-yellow-400 p-5 rounded-xl bottom-5 h-full"
           onSubmit={onHandleSubmit}
+          onClick={() => setIsOpen(true)}
         >
           <div className="flex items-center border-b border-gray-700  py-2">
             <p className="w-[50%]">Username :</p>
@@ -173,26 +194,20 @@ const employeeUpdate = () => {
           )}
           <div className="flex items-center border-b border-gray-700 py-2 ">
             <p className="w-[50%]">email :</p>
-            <input
+            <label
               name="email"
               className="appearance-none  bg-transparent border-none w-full  leading-tight focus:outline-none"
-              type="email"
-              placeholder="Email"
-              aria-label="Email"
-              value={email}
-            />
+            >{email}</label>
           </div>
 
           <div className="flex items-center border-b border-gray-700  py-2 ">
             <p className="w-[50%]">Phone no :</p>
-            <input
+            <label
               name="phoneNo"
               className="aappearance-none  bg-transparent border-none w-full  leading-tight focus:outline-none"
-              type="text"
-              placeholder="Phone no"
-              aria-label="PhoneNo"
-              value={phoneNo}
-            />
+              >
+              {phoneNo}
+              </label>
           </div>
 
           <div className="flex items-center border-b border-gray-700 py-2 ">
@@ -245,7 +260,7 @@ const employeeUpdate = () => {
               <input
                 class="text-sm cursor-pointer w-36 hidden"
                 onChange={(e) => {
-                  setCvData(e.target.files[0]);
+                  setPdf(e.target.files[0]);
                 }}
                 type="file"
                 multiple
@@ -269,6 +284,7 @@ const employeeUpdate = () => {
         <p className="text-red-900"></p>
       </div>
     </div>
+    </>
   );
 };
 

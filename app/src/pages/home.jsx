@@ -1,10 +1,11 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser,selectCurrentToken,selectCurrentId,selectCurrentRole } from '../features/auth/authSlice';
 
 import JobCat from '../components/jobCat';
 import axios from 'axios';
 const Home = () => {
+    const [userResult, setUserResult] = useState('');
     const role = useSelector(selectCurrentRole);
     const id = useSelector(selectCurrentId);
     const user = useSelector(selectCurrentUser);
@@ -20,14 +21,14 @@ const Home = () => {
           })
           .then((response) => {
             setUserResult(response.data);
-    
+            console.log(response.data);
             return response;
           })
           .then((response) => {
             // setSearchResult(response.data);
             console.log(response.data);
           });
-        }}
+        }},[]
     )
     return (
         <div className=''>

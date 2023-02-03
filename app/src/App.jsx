@@ -10,7 +10,7 @@ import EmployerProfile from "./pages/employer/EmployerProfile";
 import EmployerRegisterform from "./pages/employer/employerRegisterform";
 import EmployeeProfile from "./pages/employee/EmployeeProfile";
 import Layout from "./components/layout";
-import EmployeeUpdate from "./components/modals/employeeUpdate";
+import EmployerUpdate from "./components/modals/employerUpdate";
 
 function App() {
   return (
@@ -79,12 +79,12 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/employee/update"
+      <Route
+          path="/employer/update"
           element={
             <>
               <NavBar />
-              <EmployeeUpdate />
+              <EmployerUpdate />
             </>
           }
         />

@@ -1,8 +1,6 @@
-const employeeModel = require("../models/employeeModel");
 const { smsOtp, otpValidiation } = require("../utils/otp");
-// const employeeModel = require("../models/employeeModel");
+const employeeModel = require("../models/employeeModel");
 const employerModel = require("../models/employerModel");
-const otpModel = require("../models/otpModel");
 const bcrypt = require("bcrypt");
 
 const employerRegister = async (req, res) => {
@@ -36,22 +34,47 @@ exports.employerRegister = employerRegister;
 const otpVerify = async (req, res) => {
     try {
         console.log(req.body);
-        let { companyName, email, password, contactNo, otp } = req.body;
-        let position = employer;
+        let { userName, email, password, phoneNo, otp } = req.body;
+        let position = 'employer';
         const response = await otpValidiation(email, otp);
         console.log("otpValidation", response.status);
         if (response.status === true) {
-            const data = new employerModel({ companyName: companyName, email: email, contactNo: contactNo, password: password, position: position });
+            console.log("status true", req.body);
             const salt = await bcrypt.genSalt(10);
-            data.password = bcrypt.hash(data.password, salt);
-            data.save();
+            password = await bcrypt.hash(password, salt);
+            console.log("salt", salt);
+            console.log("verification", password);
+            const data = new employerModel({ userName: userName, phoneNo: phoneNo, email: email, password: password, position: position });
+            await data.save()
             res.json({ status: true })
         } else {
             res.json({ status: false })
         }
     } catch (error) {
+        console.log(req.body);
         console.log(error);
         res.json({ status: false })
     }
 }
 exports.otpVerify = otpVerify
+
+
+const update = async (req, res) => {
+    try {
+        let { userName, id, place, details, logoUrl } = req.body;
+        console.log("Update", req.body);
+        const data = await employerModel.findByIdAndUpdate(id,{
+            $set: {
+                userName: userName,
+                place: place,
+                details: details,
+                logoUrl: logoUrl
+            }
+        })
+        console.log(data);
+        res.json({ data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.update = update

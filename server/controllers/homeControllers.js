@@ -16,13 +16,15 @@ const dataGet = async (req, res) => {
         console.log("home role",userData.role);
         if (userData.role == 'employee') {
             let data = await employeeModel.findOne({ email: userData.email });
+           console.log("data sending in home",data);
             res.json({ data});
-        } else if (data.role === "employer") {
+        } else if (userData.role === "employer") {
             let data = await employerModel.findOne({ email: userData.email });
+            console.log(data);
             res.json({ data});
         }
     }catch (error) {
-        // console.log(error);
+         console.log(error);
         res.json({ status: "404" })
     }
 }
