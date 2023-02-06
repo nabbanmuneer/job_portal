@@ -24,11 +24,9 @@ const employeeSchema = new Schema(
     password: {
       type: String,
       trim: true,
-      require: true
     },
     position: {
-      type: String,
-      trim: true,
+      type: String
     },
     place: {
       type: String,

@@ -166,7 +166,7 @@ const employeeRegisterform = () => {
             mobileCheck() &&
             password === re_password
         ) {
-            const response = axios.post("http://localhost:3000/employee/register", user).
+            const response = axios.post(`${import.meta.env.VITE_BASESERVER_URL}/employee/register`, user).
                 then(res => {
                     if (res.data.status == true) {
                         setstatus(true)
@@ -185,11 +185,11 @@ const employeeRegisterform = () => {
         }
     };
 
-    const otpverify = (e) => {
+    const otpverify =async (e) => {
         const user = { email, userName, phoneNo, password, otp };
         e.preventDefault();
         console.log("verify", phoneNo, otp)
-        const response = axios.post("http://localhost:3000/employee/otpverify", user).
+        const response = await axios.post(`${import.meta.env.VITE_BASESERVER_URL}/employee/otpverify`, user).
             then(res => {
                 if (res.data.status == true) {
                     navigate('/login');

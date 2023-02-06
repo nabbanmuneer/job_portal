@@ -10,7 +10,7 @@ import {
 const employeeUpdate = ({ setIsOpen }) => {
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [userName, setUserName] = useState("");
   const [place, setPlace] = useState("");
   const [email, setEmail] = useState("");
@@ -36,6 +36,7 @@ const employeeUpdate = ({ setIsOpen }) => {
             setPlace(data.place);
             setDetails(data.details);
             setId(data._id)
+            setLogo(data.logoUrl);
           }
         });
     }
@@ -89,32 +90,29 @@ const employeeUpdate = ({ setIsOpen }) => {
         .post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}/image/upload`,data)
         .then((response) => {
           logoUrl = response.data.secure_url;
-          console.log("url photo cloudinary", logoUrl);
         })
         .catch((error) => {
-          console.error(error);
           return "error";
         });
     }
     console.log("profileURL", logoUrl);
 
     const user = { userName, place, email,logoUrl , details ,id };
-    console.log("data", user);
     //=============================Sumbition to controllers===============================
     if (nameCheck()) {
       const response = axios
-        .post("http://localhost:3000/employer/update", user)
+        .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/update`, user)
         .then((res) => {
           if (res.data) {
             res;
           } else {
-            console.log("error");
+
           }
         });
-      console.log("data log", place, userName, logoUrl, details);
+
       setIsOpen(false);
     } else {
-      console.log("Error");
+
     }
   };
 

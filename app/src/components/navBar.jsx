@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectCurrentUser,
   selectCurrentToken,
-  selectCurrentId,
   selectCurrentRole,
 } from "../features/auth/authSlice";
 import { logOut } from "../features/auth/authSlice";
@@ -69,6 +68,7 @@ function NavBar() {
             <div
               onClick={(e) => {
                 dispatch(logOut());
+                Navigate('/');
               }}
               className=""
             >

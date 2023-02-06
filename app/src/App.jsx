@@ -10,7 +10,7 @@ import EmployerProfile from "./pages/employer/EmployerProfile";
 import EmployerRegisterform from "./pages/employer/employerRegisterform";
 import EmployeeProfile from "./pages/employee/EmployeeProfile";
 import Layout from "./components/layout";
-import EmployerUpdate from "./components/modals/employerUpdate";
+import AddJob from "./components/modals/AddJob";
 
 function App() {
   return (
@@ -84,7 +84,7 @@ function App() {
           element={
             <>
               <NavBar />
-              <EmployerUpdate />
+              <AddJob />
             </>
           }
         />

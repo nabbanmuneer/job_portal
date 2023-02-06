@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import {useformik} from 'formik';
 const employerRegisterform = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
@@ -149,7 +148,6 @@ const employerRegisterform = () => {
 
   const onHandleSubmit = (e) => {
     const user = { email, userName, phoneNo, password, re_password };
-    console.log("onHandleSubmit", user);
     e.preventDefault();
     nameCheck();
     passwordCheck();
@@ -162,11 +160,11 @@ const employerRegisterform = () => {
       password === re_password
     ) {
       const response = axios
-        .post("http://localhost:3000/employer/register", user)
+        .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/register`, user)
         .then((res) => {
-          console.log("res in promis", res.data.status);
+
           if (res.data.status == true) {
-            console.log("res.data", email, userName, phoneNo, password);
+
             setstatus(true);
           }
         });
@@ -177,15 +175,15 @@ const employerRegisterform = () => {
   const otpverify = (e) => {
     const user = { email, userName, phoneNo, password, otp };
     e.preventDefault();
-    console.log("otpverify", email, otp);
+
     const response = axios
-      .post("http://localhost:3000/employer/otpverify", user)
+      .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/otpverify`, user)
       .then((res) => {
-        console.log(res.data);
+
         if (res.data.status == true) {
           navigate("/login");
         } else {
-          console.log("error");
+
         }
       });
   };

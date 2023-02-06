@@ -22,16 +22,15 @@ const EmployeeProfile = () => {
     console.log("error", user, token);
     if (token) {
       axios
-        .post("http://localhost:3000/home/get", user, {
+        .post(`${import.meta.env.VITE_BASESERVER_URL}`, user, {
           headers: { token },
         })
         .then((response) => {
           if (!response.status) {
-            console.log("data reviced in emplyee pro");
+
           } else {
             let data = response.data.data;
-            console.log("data",response.data);
-            console.log("value",data.userName,data.email,data.phoneNo,data.place,data.qualification,data.profilePic,data.pdf,data._id);
+
             setUserName(data.userName);
             setEmail(data.email);
             setPhoneNo(data.phoneNo);

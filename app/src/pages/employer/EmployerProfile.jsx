@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import {
@@ -22,25 +21,13 @@ const EmployerProfile = () => {
     console.log("error", user, token);
     if (token) {
       axios
-        .post("http://localhost:3000/home/get", user, {
+        .post(`${import.meta.env.VITE_BASESERVER_URL}/home/get`, user, {
           headers: { token },
         })
         .then((response) => {
           if (!response.status) {
-            console.log("data reviced in emplyee pro");
           } else {
             let data = response.data.data;
-            console.log("data", response.data);
-            console.log(
-              "value",
-              data._id,"data",
-              data.userName,
-              data.email,
-              data.phoneNo,
-              data.place,
-              data.details,
-              data.logo
-            );
             setUserName(data.userName);
             setEmail(data.email);
             setPhoneNo(data.phoneNo);
@@ -50,7 +37,7 @@ const EmployerProfile = () => {
           }
         });
     }
-  }, []);
+  }, [<EmployerUpdate setIsOpen={setIsOpen} />]);
 
   return (
     <>
@@ -60,7 +47,7 @@ const EmployerProfile = () => {
             <div className="w-full h-full p-2 bg-black flex justify-center items-center ">
               <img
                 className=" h-[250px] w-[260px] rounded-full bg-white"
-                src={""}
+                src={logo}
                 alt="profile"
               />
             </div>

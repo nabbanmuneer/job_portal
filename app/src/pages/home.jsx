@@ -16,7 +16,7 @@ const Home = () => {
     useEffect(() => {
         if(user){
         axios
-          .post("http://localhost:3000/home/get", user, {
+          .post(`${import.meta.env.VITE_BASESERVER_URL}/home/get`, user, {
             headers: { token },
           })
           .then((response) => {
