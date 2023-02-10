@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2'
+
 const employerRegisterform = () => {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
@@ -179,11 +181,12 @@ const employerRegisterform = () => {
     const response = axios
       .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/otpverify`, user)
       .then((res) => {
-
         if (res.data.status == true) {
-          navigate("/login");
+          Swal.fire("registered sucessfully").then(() => {
+            navigate("/login");
+          });
         } else {
-
+          Swal.fire("Invalid OTP")
         }
       });
   };

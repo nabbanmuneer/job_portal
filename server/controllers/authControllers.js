@@ -29,7 +29,6 @@ const handleLogin = async (req, res) => {
     // create JWTs
     let userName = foundUser.userName;
     let position = foundUser.position;
-    console.log("foundUser", foundUser, userName, position);
 
     const accessToken = jwt.sign(
       {

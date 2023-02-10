@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
 import { useLoginMutation } from "../features/auth/authApiSlice";
-// import { useState } from "react";
-// import React, { useEffect, useRef } from "react"
+import Swal from 'sweetalert2'
+
 const Login = () => {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -33,31 +33,24 @@ const Login = () => {
     initialValues: { email: "", password: "" },
     validate,
     onSubmit: async (values) => {
-      // try {
+       try {
         let { email, password } = values;
-        console.log("login th value", values);
         const userData = await login({ email, password }).unwrap();
-        console.log(userData);
-        console.log("userData",userData.accessToken);
-        // console.log("onsubmit");
-        // console.log(data.accessToken);
-        let token = userData.accessToken
+        let token = await userData.accessToken
         dispatch(setCredentials({ ...userData, email }));
         if (!userData) {
-          // handle errors
           formik.setErrors(userData.errors);
           console.log("formik user",userData.errors);
         } else {
           axios.defaults.headers.common["Authorization"] = token;
-          console.log("chandfe");
-          navigate("/");
+          Swal.fire('successfully login')
+          .then(()=>{navigate("/")})
         }
-      // } catch (err) {
-      //   // handle errors
-      //   console.log(err);
-      // } finally {
-      //   formik.setSubmitting(false);
-      // }
+      } catch (err) {
+        Swal.fire('Invalid Email or Password')
+      } finally {
+        formik.setSubmitting(false);
+      }
     },
   });
 
@@ -80,7 +73,7 @@ const Login = () => {
               onChange={formik.handleChange}
             />
           </div>
-          {formik.errors?.email ? <div>{formik.errors.email}</div> : null}
+          {formik.errors?.email ? <div class="text-red-400">{formik.errors.email}</div> : null}
           <div className="flex items-center border-b bg-white border-gray-700 py-4">
             <input
               name="password"

@@ -1,7 +1,11 @@
 const { smsOtp, otpValidiation } = require("../utils/otp");
 const employeeModel = require("../models/employeeModel");
 const employerModel = require("../models/employerModel");
+const jobModel = require("../models/jobModel.js")
+const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const dotenv = require('dotenv');
+const jwt_decode = require("jwt-decode");
 
 const employerRegister = async (req, res) => {
     try {
@@ -63,7 +67,7 @@ const update = async (req, res) => {
     try {
         let { userName, id, place, details, logoUrl } = req.body;
         console.log("Update", req.body);
-        const data = await employerModel.findByIdAndUpdate(id,{
+        const data = await employerModel.findByIdAndUpdate(id, {
             $set: {
                 userName: userName,
                 place: place,
@@ -78,3 +82,58 @@ const update = async (req, res) => {
     }
 }
 exports.update = update
+
+
+const addJobForm = async (req, res) => {
+    try {
+        const status = "waiting";
+        const { jobTitle, Category, jobType, workPlacetype, amount, salaryType, decrption, duration, id } = req.body;
+        const jobdata = await new jobModel({
+            jobTitle: jobTitle,
+            Category: Category,
+            jobType: jobType,
+            workPlacetype: workPlacetype,
+            amount: amount,
+            salaryType: salaryType,
+            decrption: decrption,
+            duration: duration,
+            id: id,
+            status: status,
+        });
+        await jobdata.save().then(() => {
+            res.json({ status: true })
+        })
+    } catch (error) {
+        res.json({ status: false })
+        console.log(error);
+    }
+}
+exports.addJobForm = addJobForm
+
+const employerProfile = async (req, res) => {
+    try {
+        const token = req.headers.token
+        const decoded = jwt_decode(token);
+        let userData = decoded.UserInfo;
+        console.log("home role", userData);
+        let data = await employerModel.aggregate([
+            {
+                $match:{
+                    email:userData.email
+                }
+            },{
+                $lookup:{
+                    from:'jobs',
+                    localField:'_id',
+                    foreignField:'id',
+                    as:'job'
+                }
+            }
+        ]);
+        console.log("data",data[0].email);
+        res.json({ data });
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.employerProfile = employerProfile

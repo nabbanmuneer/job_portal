@@ -10,7 +10,6 @@ const Home = () => {
     const id = useSelector(selectCurrentId);
     const user = useSelector(selectCurrentUser);
     const token = useSelector(selectCurrentToken);
-    console.log("home access token",user,"user",role,"token",id);
     const home = user ? `welcome ${user}!` : 'home!'
     // const tokkenAbbr = `${token.slice(0, 9)}...`;
     useEffect(() => {
@@ -21,13 +20,8 @@ const Home = () => {
           })
           .then((response) => {
             setUserResult(response.data);
-            console.log(response.data);
             return response;
           })
-          .then((response) => {
-            // setSearchResult(response.data);
-            console.log(response.data);
-          });
         }},[]
     )
     return (

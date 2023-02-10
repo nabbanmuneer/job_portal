@@ -19,10 +19,9 @@ const EmployeeProfile = () => {
   const [pdf, setPdf] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    console.log("error", user, token);
     if (token) {
       axios
-        .post(`${import.meta.env.VITE_BASESERVER_URL}`, user, {
+        .post(`${import.meta.env.VITE_BASESERVER_URL}/home/get`, user, {
           headers: { token },
         })
         .then((response) => {
@@ -30,7 +29,6 @@ const EmployeeProfile = () => {
 
           } else {
             let data = response.data.data;
-
             setUserName(data.userName);
             setEmail(data.email);
             setPhoneNo(data.phoneNo);

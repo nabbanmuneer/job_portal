@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GiHamburgerMenu, RxCross1 } from "react-icons/all";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import Swal from 'sweetalert2'
 import {
   selectCurrentUser,
   selectCurrentToken,
@@ -68,7 +68,8 @@ function NavBar() {
             <div
               onClick={(e) => {
                 dispatch(logOut());
-                Navigate('/');
+                Swal.fire('Log Out successfully')
+                  .then(()=>{Navigate("/")})
               }}
               className=""
             >
