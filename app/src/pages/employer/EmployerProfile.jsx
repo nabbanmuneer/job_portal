@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   selectCurrentUser,
   selectCurrentToken,
 } from "../../features/auth/authSlice";
-import EmployerUpdate from "../../components/modals/employerUpdate"
+import EmployerUpdate from "../../components/modals/employerUpdate";
+import AddJob from "../../components/modals/AddJob";
 const EmployerProfile = () => {
+  const Navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
   const [userName, setUserName] = useState("");
@@ -16,28 +19,41 @@ const EmployerProfile = () => {
   const [logo, setLogo] = useState("");
   const [details, setDetails] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpenFrom, setIsOpenFrom] = useState(false);
+  const [job, setJob] = useState([]);
   useEffect(() => {
     console.log("error", user, token);
     if (token) {
       axios
-        .post(`${import.meta.env.VITE_BASESERVER_URL}/home/get`, user, {
-          headers: { token },
-        })
+        .post(
+          `${import.meta.env.VITE_BASESERVER_URL}/employer/employeeProfile`,
+          user,
+          {
+            headers: { token },
+          }
+        )
         .then((response) => {
           if (!response.status) {
           } else {
-            let data = response.data.data;
+            const data = response.data.data[0];
+            const jobData = response.data.data[0].job;
+            setJob(jobData);
             setUserName(data.userName);
             setEmail(data.email);
             setPhoneNo(data.phoneNo);
             setPlace(data.place);
             setLogo(data.logoUrl);
-            setDetails(data.details)
+            setDetails(data.details);
           }
         });
     }
-  }, [<EmployerUpdate setIsOpen={setIsOpen} />]);
+  }, []);
+
+  const handlePage = (id)=>{
+    Navigate('/employer/:id')
+  }
+
+  
 
   return (
     <>
@@ -62,7 +78,7 @@ const EmployerProfile = () => {
                   <button onClick={() => setIsOpen(true)}>update</button>
                 </div>
                 <div className="bg-neutral-800 w-full text-center text-yellow-400">
-                  <button>Add Job</button>
+                  <button onClick={() => setIsOpenFrom(true)}>Add Job</button>
                 </div>
                 <div className="bg-neutral-800 w-full text-center text-yellow-400">
                   <button>Notification</button>
@@ -72,7 +88,16 @@ const EmployerProfile = () => {
           </div>
         </div>
       </div>
+      <div className="max-w-[1240] mx-auto px-0 ">
+
+      {job && job.map((value, index) =>
+       <div className="   bg-yellow-400 p-5 m-5" key={index} onClick={(id)=>handlePage(value._id)}>
+        job Title:{value.jobTitle}
+        </div>
+       )}
+      </div>
       {isOpen && <EmployerUpdate setIsOpen={setIsOpen} />}
+      {isOpenFrom && <AddJob setIsOpenFrom={setIsOpenFrom} />}
     </>
   );
 };
