@@ -242,7 +242,7 @@ const employeeUpdate = ({ setIsOpen }) => {
             <p className="w-[50%]">Add Picture :</p>
             <label className="w-full ">
               <input
-                class="text-sm cursor-pointer w-36 hidden"
+                className="text-sm cursor-pointer w-36 hidden"
                 onChange={(e) => {
                   setImage(e.target.files[0]);
                 }}

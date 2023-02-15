@@ -15,7 +15,11 @@ const jobSchema = new Schema(
             trim: true,
             require: true
         },
-
+        jobType:{
+            type:String,
+            trim:true,
+            require:true
+        },
         workPlacetype: {
             type: String,
             trim: true,

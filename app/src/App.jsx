@@ -11,11 +11,11 @@ import EmployerRegisterform from "./pages/employer/employerRegisterform";
 import EmployeeProfile from "./pages/employee/EmployeeProfile";
 import Layout from "./components/layout";
 import AddJob from "./components/modals/AddJob";
-
+import JobDetail from "./pages/employer/jobDetail";
 function App() {
   return (
     <Routes>
-      <Route element={<Layout />} >
+      <Route element={<Layout />}>
         <Route
           path="/employee/register"
           element={
@@ -35,8 +35,7 @@ function App() {
           }
         />
         <Route
-          path="/login"
-          element={
+          path="/login" element={
             <>
               <NavBar />
               <Login />
@@ -44,16 +43,14 @@ function App() {
           }
         />
         <Route
-          path="/choice"
-          element={
+          path="/choice" element={
             <>
               <Choice />
             </>
           }
         />
         <Route
-          path="/"
-          element={
+          path="/" element={
             <>
               <NavBar />
               <Banner />
@@ -62,8 +59,7 @@ function App() {
           }
         />
         <Route
-          path="/employer/profile"
-          element={
+          path="/employer/profile" element={
             <>
               <NavBar />
               <EmployerProfile />
@@ -71,20 +67,18 @@ function App() {
           }
         />
         <Route
-          path="/employee/profile"
-          element={
+          path="/employee/profile" element={
             <>
               <NavBar />
               <EmployeeProfile />
             </>
           }
         />
-      <Route
-          path="/employer/update"
-          element={
+        <Route
+          path="/employer/jobs/:id" element={
             <>
               <NavBar />
-              <AddJob />
+              <JobDetail />
             </>
           }
         />

@@ -35,6 +35,7 @@ const Login = () => {
     onSubmit: async (values) => {
        try {
         let { email, password } = values;
+        console.log("userDAata",values);
         const userData = await login({ email, password }).unwrap();
         let token = await userData.accessToken
         dispatch(setCredentials({ ...userData, email }));
@@ -47,7 +48,8 @@ const Login = () => {
           .then(()=>{navigate("/")})
         }
       } catch (err) {
-        Swal.fire('Invalid Email or Password')
+        // Swal.fire('Invalid Email or Password')
+        console.log(err);
       } finally {
         formik.setSubmitting(false);
       }
@@ -73,7 +75,7 @@ const Login = () => {
               onChange={formik.handleChange}
             />
           </div>
-          {formik.errors?.email ? <div class="text-red-400">{formik.errors.email}</div> : null}
+          {formik.errors?.email ? <div className="text-red-400">{formik.errors.email}</div> : null}
           <div className="flex items-center border-b bg-white border-gray-700 py-4">
             <input
               name="password"

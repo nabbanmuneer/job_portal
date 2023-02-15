@@ -137,3 +137,46 @@ const employerProfile = async (req, res) => {
     }
 }
 exports.employerProfile = employerProfile
+
+
+const jobData = async (req,res)=>{
+    try{
+    let {id} = req.body;
+    console.log(id);
+    const jobsData = await jobModel.findById(id)
+    console.log("jobs",jobsData);
+    res.json({ data : jobsData })
+    }catch(error){
+        // res.json({status : false })
+        console.log(error);
+    }
+}
+exports.jobData = jobData
+
+const editJob = async (req,res)=>{
+try{
+let {jobTitle,
+    Category,
+    jobType,
+    workPlacetype,
+    amount,
+    salaryType,
+    decrption,
+    duration,id} = req.body
+    const jobUpdate = await jobModel.findByIdAndUpdate(id,{$set:{
+        jobTitle:jobTitle,
+        Category:Category,
+        jobType:jobType,
+        workPlacetype:workPlacetype,
+        amount:amount,
+        salaryType:salaryType,
+        decrption:decrption,
+        duration:duration,
+    }}).then(res.json({status:true}))
+
+}catch(error){
+    console.log(error);
+}
+
+}
+exports.editJob = editJob;

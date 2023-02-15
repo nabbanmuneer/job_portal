@@ -13,4 +13,8 @@ router.post('/addJob',employerControllers.addJobForm);
 
 router.post('/employeeProfile',employerControllers.employerProfile);
 
+router.post('/jobData',employerControllers.jobData)
+
+router.post('/editJob',employerControllers.editJob)
+
 module.exports = router;

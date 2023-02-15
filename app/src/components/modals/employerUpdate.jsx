@@ -87,12 +87,17 @@ const employeeUpdate = ({ setIsOpen }) => {
         `${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}`
       );
       await axios
-        .post(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}/image/upload`,data)
+      .post(
+        `https://api.cloudinary.com/v1_1/${
+          import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+        }/image/upload`,data)
         .then((response) => {
+          console.log("response",response)
           logoUrl = response.data.secure_url;
         })
         .catch((error) => {
-          return "error";
+          
+          console.log(error);;
         });
     }
     console.log("profileURL", logoUrl);

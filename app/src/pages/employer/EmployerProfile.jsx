@@ -47,10 +47,10 @@ const EmployerProfile = () => {
           }
         });
     }
-  }, []);
+  }, [isOpenFrom,isOpen]);
 
-  const handlePage = (id)=>{
-    Navigate('/employer/:id')
+  const jobProfile = (id)=>{
+    Navigate(`/employer/jobs/${id}`)
   }
 
   
@@ -67,6 +67,7 @@ const EmployerProfile = () => {
                 alt="profile"
               />
             </div>
+            
             <div className="text-neutral-800 h-full flex w-full flex-col p-1 justify-between lg:p-3 ld:text-lg  ">
               <div className="break-all p-2">Company Name :{userName}</div>
               <div className="break-all p-2">place :{place}</div>
@@ -91,7 +92,7 @@ const EmployerProfile = () => {
       <div className="max-w-[1240] mx-auto px-0 ">
 
       {job && job.map((value, index) =>
-       <div className="   bg-yellow-400 p-5 m-5" key={index} onClick={(id)=>handlePage(value._id)}>
+       <div className="   bg-yellow-400 p-5 m-5" key={index} onClick={()=>jobProfile(value._id)}>
         job Title:{value.jobTitle}
         </div>
        )}
