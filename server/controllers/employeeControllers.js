@@ -1,7 +1,8 @@
 const employeeModel = require('../models/employeeModel')
+const jobModel = require("../models/jobModel")
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
-
+const mongoose = require('mongoose');
 dotenv.config();
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID } = process.env
 
@@ -10,7 +11,7 @@ const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 const employeeRegister = async (req, res) => {
     try {
         let { email, phoneNo } = (req.body);
-        const userVerify =await employeeModel.findOne({ email: email, phoneNo: phoneNo });
+        const userVerify = await employeeModel.findOne({ email: email, phoneNo: phoneNo });
         if (!userVerify) {
             console.log("got", phoneNo);
             await client.verify.v2
@@ -19,7 +20,7 @@ const employeeRegister = async (req, res) => {
             console.log("OTP SENDED");
             res.json({ status: true });
         } else {
-            console.log( "error in email or password");
+            console.log("error in email or password");
             res.json({ status: false });
         }
 
@@ -39,7 +40,7 @@ const otpVerify = async (req, res) => {
         const verification_check = await client.verify.v2
             .services(TWILIO_SERVICE_SID)
             .verificationChecks.create({ to: `+91${mobile}`, code: otp });
-        if (verification_check.status == "approved" ) {
+        if (verification_check.status == "approved") {
             const position = "employee";
             let { userName, email, password } = req.body;
             const salt = await bcrypt.genSalt(10);
@@ -58,7 +59,7 @@ exports.otpVerify = otpVerify
 
 const employeeUpdate = async (req, res) => {
     try {
-        let { userName, place, qualification, resume, profilePic,id } = req.body;
+        let { userName, place, qualification, resume, profilePic, id } = req.body;
         const data = await employeeModel.findByIdAndUpdate(id, {
             $set: {
                 userName: userName,
@@ -68,8 +69,8 @@ const employeeUpdate = async (req, res) => {
                 profilePic: profilePic
 
             }
-        },{new: true})
-        console.log("controller data",data);
+        }, { new: true })
+        console.log("controller data", data);
     } catch (error) {
         console.log(error);
     }
@@ -77,3 +78,42 @@ const employeeUpdate = async (req, res) => {
 exports.employeeUpdate = employeeUpdate;
 
 
+const bidPost = async (req, res) => {
+    try {
+        let { bidValue, userId, jobId } = req.body;
+        await jobModel.findByIdAndUpdate(jobId, {
+            $push: {
+                "bid": {
+                    bidValue: bidValue,
+                    userId: userId
+                }
+            }
+        }, { new: true }).then(
+            res.json({ status: true })
+        )
+    } catch (error) {
+        res.json({ status: false });
+    }
+}
+exports.bidPost = bidPost
+
+const employeeProfile = async (req, res) => {
+    try {
+        let { id } = req.body;
+        const user = await employeeModel.findById(id);
+
+        const job = await jobModel.aggregate([{
+            $unwind :"$bid"
+            },{
+            "$match": {
+                "bid.userId": user._id
+            }
+        }]);
+        console.log(job);
+        const data = { user, job };
+        res.json({ data });
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.employeeProfile = employeeProfile

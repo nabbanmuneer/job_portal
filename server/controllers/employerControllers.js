@@ -86,9 +86,9 @@ exports.update = update
 
 const addJobForm = async (req, res) => {
     try {
-        const status = "waiting";
+        const status = "Pending";
         const { jobTitle, Category, jobType, workPlacetype, amount, salaryType, decrption, duration, id } = req.body;
-        const jobdata = await new jobModel({
+        const jobdata = new jobModel({
             jobTitle: jobTitle,
             Category: Category,
             jobType: jobType,
@@ -142,9 +142,7 @@ exports.employerProfile = employerProfile
 const jobData = async (req,res)=>{
     try{
     let {id} = req.body;
-    console.log(id);
     const jobsData = await jobModel.findById(id)
-    console.log("jobs",jobsData);
     res.json({ data : jobsData })
     }catch(error){
         // res.json({status : false })

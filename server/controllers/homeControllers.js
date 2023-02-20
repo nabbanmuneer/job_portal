@@ -32,30 +32,43 @@ const dataGet = async (req, res) => {
 exports.dataGet = dataGet;
 
 const homeData = async (req, res) => {
-    try{
+    try {
         const data1 = await jobModel.aggregate([{
-            $match:{
-                jobType :"fullTime"
+            $match: {
+                jobType: "fullTime"
             }
-        },{
-            $group:{
-                _id:"$Category",    
+        }, {
+            $group: {
+                _id: "$Category",
             }
         }])
         const data2 = await jobModel.aggregate([{
-            $match:{
-                jobType :"partTime"
+            $match: {
+                jobType: "partTime"
             }
-        },{
-            $group:{
-                _id:"$Category",    
+        }, {
+            $group: {
+                _id: "$Category",
             }
         }])
-        console.log(data1,data2);
-        res.json({ data1,data2 });
-    }catch(error){
-        res.json({status:false})
+        console.log(data1, data2);
+        res.json({ data1, data2 });
+    } catch (error) {
+        res.json({ status: false })
     }
-    
+
 }
 exports.homeData = homeData
+
+const filterJob = async (req, res) => {
+    try {
+        let { role, id } = req.body;
+        if (role == "Category") {
+            const data = await jobModel.find({ Category: id });
+            res.json({ data: data })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.filterJob = filterJob

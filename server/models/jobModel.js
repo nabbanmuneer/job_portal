@@ -48,7 +48,19 @@ const jobSchema = new Schema(
         status: {
             type: String,
             require: true,
-        }
+        },
+        bid:[
+            {
+                bidValue:Number,
+                userId:ObjectId
+            }
+        ],
+        selected:[
+            {
+                amount:Number,
+                userId:ObjectId
+            }
+        ]
     }, { timestamps: true }
 );
 

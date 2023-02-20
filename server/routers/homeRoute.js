@@ -7,4 +7,6 @@ router.post('/get',homeControllers.dataGet);
 
 router.post('/homeGet',homeControllers.homeData)
 
+router.post('/filterJob',homeControllers.filterJob)
+
 module.exports = router;
