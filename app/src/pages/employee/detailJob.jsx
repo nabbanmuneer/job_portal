@@ -71,7 +71,7 @@ const detailJob = () => {
           <span>{jobTitle.status} </span>
         </div>
       </div>
-      <div className="p-5 grid-flow-col m-5 rounded-xl bg-yellow-400  w-fit">
+      {jobTitle.jobType == "partTime" ? <div className="p-5 grid-flow-col m-5 rounded-xl bg-yellow-400  w-fit">
         <input
           onChange={(e) => {
             setBidValue(e.target.value);
@@ -88,7 +88,7 @@ const detailJob = () => {
         >
           bid
         </button>
-      </div>
+      </div>: <div className="p-5 grid-flow-col m-5 rounded-xl"><button className="bg-black text-yellow-400 p-3 rounded-lg">apply</button></div>}
     </div>
   );
 };

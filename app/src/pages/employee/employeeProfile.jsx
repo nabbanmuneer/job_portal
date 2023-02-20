@@ -31,8 +31,8 @@ const EmployeeProfile = () => {
           if (!response.status) {
           } else {
             let data = response.data.data.user;
+            let count = response.data.data.job.length;
             setJob(response.data.data.job);
-            console.log(job);
             setUserName(data.userName);
             setEmail(data.email);
             setPhoneNo(data.phoneNo);
@@ -51,9 +51,18 @@ const EmployeeProfile = () => {
         <div className=" w-full md:w-[100%] p-5  flex flex-col-reverse md:flex-row ">
           <div className="md:w-[80%] w-full  m-3">
             <div className="flex flex-row h-fit justify-around items-center">
-              <div className="">RECEIVED</div>
-              <div>YOUR BID</div>
-              <div>FINISHED</div>
+              <div className="flex flex-col item-center">
+                <div className="text-center">{job.length}</div>
+                <div>Applied JOB</div>
+              </div>
+              <div className="flex flex-col item-center">
+                <div className="text-center">{job.length}</div>
+                <div>YOUR BID</div>
+              </div>
+              <div className="flex flex-col item-center">
+                <div className="text-center">{job.length}</div>
+                <div>FINISHED</div>
+              </div>
             </div>
             <div>
               {job &&

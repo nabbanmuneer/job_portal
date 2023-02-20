@@ -103,8 +103,8 @@ const employeeProfile = async (req, res) => {
         const user = await employeeModel.findById(id);
 
         const job = await jobModel.aggregate([{
-            $unwind :"$bid"
-            },{
+            $unwind: "$bid"
+        }, {
             "$match": {
                 "bid.userId": user._id
             }
