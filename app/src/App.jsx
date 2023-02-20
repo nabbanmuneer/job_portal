@@ -10,14 +10,14 @@ import EmployerProfile from "./pages/employer/EmployerProfile";
 import EmployerRegisterform from "./pages/employer/employerRegisterform";
 import EmployeeProfile from "./pages/employee/EmployeeProfile";
 import Layout from "./components/layout";
-import AddJob from "./components/modals/AddJob";
+import FiltersJobs from "./pages/FilterJobs"
 import JobDetail from "./pages/employer/jobDetail";
+import DetailJob from "./pages/employee/detailJob"
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route
-          path="/employee/register"
+        <Route path="/employee/register"
           element={
             <>
               <NavBar />
@@ -25,8 +25,7 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/employer/register"
+        <Route path="/employer/register"
           element={
             <>
               <NavBar />
@@ -34,23 +33,24 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/login" element={
+        <Route path="/choice"
+          element={
+            <>
+              <Choice />
+            </>
+          }
+        />
+        <Route path="/login"
+          element={
             <>
               <NavBar />
               <Login />
             </>
           }
         />
-        <Route
-          path="/choice" element={
-            <>
-              <Choice />
-            </>
-          }
-        />
-        <Route
-          path="/" element={
+        
+        <Route path="/"
+          element={
             <>
               <NavBar />
               <Banner />
@@ -58,31 +58,48 @@ function App() {
             </>
           }
         />
-        <Route
-          path="/employer/profile" element={
+        <Route path="/employer/profile"
+          element={
             <>
               <NavBar />
               <EmployerProfile />
             </>
           }
         />
-        <Route
-          path="/employee/profile" element={
+        <Route path="/employee/profile"
+          element={
             <>
               <NavBar />
               <EmployeeProfile />
             </>
           }
         />
-        <Route
-          path="/employer/jobs/:id" element={
+        <Route path="/jobs/:role/:id"
+          element={
+            <>
+              <NavBar />
+              <FiltersJobs />
+            </>
+          }
+        />
+        <Route path="/employer/jobs/:id"
+          element={
             <>
               <NavBar />
               <JobDetail />
             </>
           }
         />
+        <Route path="/employee/jobs/:id"
+          element={
+            <>
+              <NavBar />
+              <DetailJob />
+            </>
+          }
+        />
       </Route>
+
     </Routes>
   );
 }

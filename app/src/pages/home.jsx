@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import {
-  selectCurrentUser,
-  selectCurrentToken,
-  selectCurrentId,
-  selectCurrentRole,
-} from "../features/auth/authSlice";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Home = () => {
   const [catFull, setCatFull] = useState([]);
   const [catPart, setCatPart] = useState([]);
   const [catOption, setCatOption] = useState("");
-  const user = useSelector(selectCurrentUser);
-  const token = useSelector(selectCurrentToken);
+  const Navigate = useNavigate();
   useEffect(() => {
           axios
         .post(`${import.meta.env.VITE_BASESERVER_URL}/home/homeGet`)
         .then((response) => {
-         
           setCatFull(response.data.data1);
           setCatPart(response.data.data2)
           return response;
         })
       }, []);
- 
+ const filterJobs = (value)=>{
+  Navigate(`/jobs/Category/${value}`)
+ }
  
   return (
     <div className="">
@@ -64,24 +57,24 @@ const Home = () => {
             </button>
           </div>
         </div>
-        {catOption ?(<div className="grid grid-cols-3 p-24 items-center justify-around w-full ">
+        {catOption ?(<div className="grid grid-cols-3 lg:p-24 md:p-16 p-8 items-center justify-around w-full">
           {catPart &&
             catPart.map((value, index) => (
               <div
-                className=" bg-yellow-400 text-center flex items-center justify-center text-3xl  h-[250px]  m-5 "
+                className=" bg-yellow-400 text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
                 key={index}
-                onClick={(id) => value._id}
+                onClick={() =>filterJobs(value._id) }
               >
                 {value._id}
               </div>
             ))}
-        </div>):(<div className="grid grid-cols-3 p-24 items-center justify-around w-full ">
+        </div>):(<div className="grid grid-cols-3 lg:p-24 md:p-16 p-8 items-center justify-around w-full ">
           {catFull &&
             catFull.map((value, index) => (
               <div
-                className=" bg-yellow-400 text-center flex items-center justify-center text-3xl  h-[250px]  m-5 "
+                className=" bg-yellow-400 text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
                 key={index}
-                onClick={(id) => value._id}
+                onClick={() =>filterJobs(value._id) }
               >
                 {value._id}
               </div>

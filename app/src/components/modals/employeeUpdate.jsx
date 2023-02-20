@@ -44,6 +44,7 @@ const employeeUpdate = ({ setIsOpen }) => {
         });
     }
   }, []);
+  //================validation=================
   const [validation, setValidation] = useState({
     userName: {
       status: true,
@@ -76,8 +77,9 @@ const employeeUpdate = ({ setIsOpen }) => {
   const onHandleSubmit = async (e) => {
     e.preventDefault();
     nameCheck();
-    let profilePic = "";
-    let resume = "";
+    let profilePic =image ;
+    let resume = pdf;
+    // here
     //------------------------- it's for profile image-------------------------------
     if (image) {
       const data = new FormData();
@@ -107,7 +109,7 @@ const employeeUpdate = ({ setIsOpen }) => {
         });
     }
     //   here over
-    //------------------------- how to start pdf-----------------------------------------------
+    //-------------------------  pdf posted-----------------------------------------------
     console.log("profileURL", profilePic);
     if (pdf) {
       const resumeData = new FormData();
@@ -141,10 +143,10 @@ const employeeUpdate = ({ setIsOpen }) => {
     //=============================Sumbition to controllers===============================
     if (nameCheck()) {
       const response = axios
-        .post("http://localhost:3000/employee/update", user)
+        .post(`${import.meta.env.VITE_BASESERVER_URL}/employee/update`, user)
         .then((res) => {
           if (res.data) {
-            res;
+          
           } else {
             console.log("error");
           }

@@ -48,7 +48,7 @@ const Login = () => {
           .then(()=>{navigate("/")})
         }
       } catch (err) {
-        // Swal.fire('Invalid Email or Password')
+        Swal.fire('Invalid Email or Password')
         console.log(err);
       } finally {
         formik.setSubmitting(false);

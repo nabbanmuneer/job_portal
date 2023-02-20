@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
     name: 'auth',
-    initialState: { user: null, token: null },
+    initialState: { user: null, token: null, id: null, role: null },
     reducers: {
         setCredentials: (state, action) => {
             const { foundUser, accessToken } = action.payload;
