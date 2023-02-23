@@ -52,8 +52,8 @@ const EmployeeProfile = () => {
           <div className="md:w-[80%] w-full  m-3">
             <div className="flex flex-row h-fit justify-around items-center">
               <div className="flex flex-col item-center">
-                <div className="text-center">{job.length}</div>
-                <div>Applied JOB</div>
+                <div className="text-center font-bold text-6xl">{job.length}</div>
+                <div className="font-bold text-3xl leading-tight focus:outline-none" >APPLIED JOB</div>
               </div>
               <div className="flex flex-col item-center">
                 <div className="text-center">{job.length}</div>

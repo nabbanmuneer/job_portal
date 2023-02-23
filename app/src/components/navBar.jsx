@@ -73,7 +73,7 @@ function NavBar() {
               }}
               className=""
             >
-              LogOut
+              Log out
             </div>
           </div>
         )}
