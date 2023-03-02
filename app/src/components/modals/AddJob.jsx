@@ -8,18 +8,36 @@ import Swal from "sweetalert2";
 import axios from "axios";
 const AddJob = ({ setIsOpenFrom }) => {
   const id = useSelector(selectCurrentId);
+  const validate = (values)=>{
+    const error = {};
+    if(!values.jobTitle){
+      error.jobTitle = "Job tilte is required";
+    }
+    if(!values.Category){
+      error.Category = "Category is required";
+    }
+    if(!values.amount){
+      error.amount = "Amount is required";
+    }
+    if(!values.decrption){
+      error.decrption = "Decrption is required";
+    }
+    return error;
+  };
+
+
   const formik = useFormik({
     initialValues: {
       jobTitle: "",
       Category: "",
       jobType: "fullTime",
       workPlacetype: "onSite",
-      amount: " ",
+      amount: "",
       salaryType: "perMonth",
-      decrption: " ",
-      duration: " ",
+      decrption: "",
+      duration: "",
     },
-
+    validate,
     onSubmit: async (values) => {
       try {
         let {
@@ -93,9 +111,10 @@ const AddJob = ({ setIsOpenFrom }) => {
                 value={formik.values.jobTitle}
               />
             </div>
-            {/* {!validation.userName.status && (
-            <p className="text-red-700 mt-6 ">{validation.userName.message}</p>
-          )} */}
+              {formik.errors?.jobTitle ?
+               <div className="text-red-400">
+                {formik.errors.jobTitle}</div> : null}
+           
             <div className="flex items-center border-b border-gray-700  py-2">
               <p className="w-[50%]"> Category :</p>
               <input
@@ -108,9 +127,9 @@ const AddJob = ({ setIsOpenFrom }) => {
                 value={formik.values.Category}
               />
             </div>
-            {/* {!validation.userName.status && (
-            <p className="text-red-700 mt-6 ">{validation.userName.message}</p>
-          )} */}
+            {formik.errors?.Category ?
+               <div className="text-red-400">
+                {formik.errors.Category}</div> : null}
             <div className="flex items-center border-b border-gray-700  py-2">
               <p className="">Job Type :</p>
               <select
@@ -134,9 +153,7 @@ const AddJob = ({ setIsOpenFrom }) => {
                 <option value="hybrid">hybrid</option>
               </select>
             </div>
-            {/* {!validation.userName.status && (
-            <p className="text-red-700 mt-6 ">{validation.userName.message}</p>
-          )} */}
+            
             <div className="flex items-center border-b border-gray-700  py-2">
               <p className="w-[50%]"> Salary :</p>
               <input
@@ -158,6 +175,9 @@ const AddJob = ({ setIsOpenFrom }) => {
                 <option value="per day">per hour</option>
               </select>
             </div>
+            {formik.errors?.amount ?
+               <div className="text-red-400">
+                {formik.errors.amount}</div> : null}
             <div className="flex items-center border-b border-gray-700  py-2">
               <p className="w-[50%]"> Duration :</p>
               <input
@@ -179,7 +199,9 @@ const AddJob = ({ setIsOpenFrom }) => {
             >
               <textarea name="decrption" className=" w-full"></textarea>
             </div>
-
+            {formik.errors?.decrption ?
+               <div className="text-red-400">
+                {formik.errors.decrption}</div> : null}
             <button
               className="flex-shrink-0 bg-black hover:bg-yellow-400 border-black text-semibold hover:border-yellow-400 text-sm border-4  text-white py-1 px-2 w-full mt-3 rounded"
               type="submit"

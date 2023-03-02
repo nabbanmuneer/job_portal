@@ -35,7 +35,6 @@ const Login = () => {
     onSubmit: async (values) => {
        try {
         let { email, password } = values;
-        console.log("userDAata",values);
         const userData = await login({ email, password }).unwrap();
         let token = await userData.accessToken
         dispatch(setCredentials({ ...userData, email }));

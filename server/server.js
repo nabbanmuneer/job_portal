@@ -7,9 +7,6 @@ const path = require('path')
 const corsOptions = require("./config/corsOption");
 const employeeRoute = require('./routers/employeeRoute');
 const employerRoute=require('./routers/employerRoute')
-const {authCheck} = require('./middlewares/authCheck')
-// const errorHandler = require('./middlewares/errorHandler');
-const verifyJWT = require('./middlewares/verifyJWT');
 const credentials =require('./middlewares/credentials')
 const homeRoute = require('./routers/homeRoute')
 const cookieParser = require("cookie-parser");
@@ -22,15 +19,11 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use("/employee",employeeRoute);
-app.use("/employer",employerRoute)
+app.use("/employer",employerRoute);
 app.use("/home",homeRoute);
-
-// app.use(verifyJWT);
-// app.use(authCheck);
 app.use(express.json());
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/', require('./routers/roots'));
-// app.use('/register', require('./routers/register'));
 app.use('/auth', require('./routers/auth'));
 app.use('/refresh', require('./routers/refresh'));
 app.use('/logout', require('./routers/logout'));
@@ -47,7 +40,6 @@ app.all('*', (req, res) => {
     }
 });
 
-// app.use(errorHandler);
 
 mongoose.connect(process.env.CONNECTDB).then(()=>{
     mongoose.set('strictQuery', false);

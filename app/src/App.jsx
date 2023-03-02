@@ -12,11 +12,51 @@ import EmployeeProfile from "./pages/employee/EmployeeProfile";
 import Layout from "./components/layout";
 import FiltersJobs from "./pages/FilterJobs"
 import JobDetail from "./pages/employer/jobDetail";
-import DetailJob from "./pages/employee/detailJob"
+import DetailJob from "./pages/employee/detailJob";
+import JobPage from "./pages/jobPage";
+import EmployeeRequireAuth from "./features/requiredAuth/employeeRequireAuth"
+import EmployerRequireAuth from "./features/requiredAuth/employeeRequireAuth";
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
+      <Route element={<EmployeeRequireAuth />}>
+      <Route path="/employee/profile"
+          element={
+            <>
+              <NavBar />
+              <EmployeeProfile />
+            </>
+          }
+        />
+        <Route path="/employee/jobs/:id"
+          element={
+            <>
+              <NavBar />
+              <DetailJob />
+            </>
+          }
+        />
+        </Route>
+        <Route element={<EmployerRequireAuth />}>
+        <Route path="/employer/profile"
+          element={
+            <>
+              <NavBar />
+              <EmployerProfile />
+            </>
+          }
+        />
+        
+        <Route path="/employer/jobs/:id"
+          element={
+            <>
+              <NavBar />
+              <JobDetail />
+            </>
+          }
+        />
+        </Route>
         <Route path="/employee/register"
           element={
             <>
@@ -58,22 +98,7 @@ function App() {
             </>
           }
         />
-        <Route path="/employer/profile"
-          element={
-            <>
-              <NavBar />
-              <EmployerProfile />
-            </>
-          }
-        />
-        <Route path="/employee/profile"
-          element={
-            <>
-              <NavBar />
-              <EmployeeProfile />
-            </>
-          }
-        />
+       
         <Route path="/jobs/:role/:id"
           element={
             <>
@@ -82,22 +107,17 @@ function App() {
             </>
           }
         />
-        <Route path="/employer/jobs/:id"
+        
+        
+        <Route path="/job"
           element={
             <>
               <NavBar />
-              <JobDetail />
+              <JobPage />
             </>
           }
         />
-        <Route path="/employee/jobs/:id"
-          element={
-            <>
-              <NavBar />
-              <DetailJob />
-            </>
-          }
-        />
+
       </Route>
 
     </Routes>

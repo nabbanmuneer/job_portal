@@ -8,6 +8,7 @@ import {
 } from "../../features/auth/authSlice";
 import EmployeeUpdate from "../../components/modals/employeeUpdate";
 const EmployeeProfile = () => {
+  const Navigate = useNavigate();
   const id = useSelector(selectCurrentId);
   const token = useSelector(selectCurrentToken);
   const [userName, setUserName] = useState("");
@@ -44,12 +45,14 @@ const EmployeeProfile = () => {
         });
     }
   }, [isOpen]);
-
+  const jobProfile = (id)=>{
+    Navigate(`/employee/jobs/${id}`);
+  }
   return (
     <>
       <div className="w-ful flex justify-center  ">
         <div className=" w-full md:w-[100%] p-5  flex flex-col-reverse md:flex-row ">
-          <div className="md:w-[80%] w-full  m-3">
+          <div className="md:w-[80%] w-full ">
             <div className="flex flex-row h-fit justify-around items-center">
               <div className="">RECEIVED</div>
               <div>YOUR BID</div>
@@ -59,7 +62,7 @@ const EmployeeProfile = () => {
               {job &&
                 job.map((value, index) => (
                   <div
-                    className="   bg-yellow-400 p-5 m-5"
+                    className="   bg-yellow-400 p-5 m-5 rounded-xl"
                     key={index}
                     onClick={() => jobProfile(value._id)}
                   >
@@ -69,7 +72,7 @@ const EmployeeProfile = () => {
                 ))}
             </div>
           </div>
-          <div className=" md:w-[20%] h-full w-full bg-yellow-400 rounded-md m-3 flex sm:flex-row md:flex-col md:justify-between items-center">
+          <div className=" md:w-[20%] md:h-[500px] h-[400px] w-full bg-yellow-400 rounded-md flex sm:flex-row md:flex-col md:justify-between items-center">
             <div className="lg:w-[150px] md:w-[140px] w-[160px] lg:h-[150px] h-[125px] m-5 bg-white rounded-full ">
               <img
                 className=" lg:w-[150px] md:w-[140px] w-[160px] lg:h-[150px] h-[125px] rounded-full"
@@ -86,7 +89,7 @@ const EmployeeProfile = () => {
               <div>Rating :{}</div>
               <div className=" ">
                 <button
-                  className="w-full bg-neutral-900 text-yellow-400 rounded-lg"
+                  className="w-[75px] bg-neutral-900 text-yellow-400 rounded-lg"
                   onClick={() => setIsOpen(true)}
                 >
                   UPDATE

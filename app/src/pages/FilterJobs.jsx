@@ -20,11 +20,13 @@ const FilterJobs = () => {
   };
   return (
     <div>
-      <div className="m-5 p-5 h-[100px] grid grid-flow-row bg-yellow-400">
+      <div className=" grid grid-flow-row">
+        <div className="p-4 text-2xl font-bold">{role} / {id} </div>
         {jobData &&
           jobData.map((value, index) => (
-            <div onClick={() => selection(value._id)} key={index}>
-              <div>{value.jobTitle}</div>
+            <div className=" m-5 p-5 h-[100px] rounded-2xl bg-yellow-400  "
+             onClick={() => selection(value._id)} key={index}>
+              <div className="font-bold text-2xl">{value.jobTitle}</div>
               <div>
                 POST DATE :
                 <span> {Moment(value.createdAt).format("d MMM yyyy")} </span>

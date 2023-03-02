@@ -61,7 +61,7 @@ const Home = () => {
           {catPart &&
             catPart.map((value, index) => (
               <div
-                className=" bg-yellow-400 text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
+                className="font-bold font-mono  bg-yellow-400 rounded-2xl text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
                 key={index}
                 onClick={() =>filterJobs(value._id) }
               >
@@ -72,7 +72,7 @@ const Home = () => {
           {catFull &&
             catFull.map((value, index) => (
               <div
-                className=" bg-yellow-400 text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
+                className=" font-bold font-mono  bg-yellow-400 rounded-2xl text-center flex items-center justify-center lg:text-3xl md:text-2xl text-xl h-[150px] lg:h-[200px] xl:h-[250px]  m-5 "
                 key={index}
                 onClick={() =>filterJobs(value._id) }
               >

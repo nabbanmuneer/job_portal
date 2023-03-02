@@ -11,21 +11,16 @@ const dataGet = async (req, res) => {
     try {
         const token = req.headers.token
         const decoded = jwt_decode(token);
-        // let data = ' '
-        console.log(decoded.UserInfo);
         let userData = decoded.UserInfo;
         console.log("home role", userData.role);
         if (userData.role == 'employee') {
             let data = await employeeModel.findOne({ email: userData.email });
-            console.log("data sending in home", data);
             res.json({ data });
         } else if (userData.role === "employer") {
             let data = await employerModel.findOne({ email: userData.email });
-            console.log(data);
             res.json({ data });
         }
     } catch (error) {
-        console.log(error);
         res.json({ status: "404" })
     }
 }
@@ -51,7 +46,6 @@ const homeData = async (req, res) => {
                 _id: "$Category",
             }
         }])
-        console.log(data1, data2);
         res.json({ data1, data2 });
     } catch (error) {
         res.json({ status: false })
@@ -72,3 +66,18 @@ const filterJob = async (req, res) => {
     }
 }
 exports.filterJob = filterJob
+
+const searchData = async (req, res) => {
+    try {
+        const employeeData = await employeeModel.find();
+        const employerData = await employerModel.find();
+        const jobData = await jobModel.find();
+        let result = { employeeData, employerData, jobData }
+        const data = {...result}
+        console.log(data);
+        // res.send({ data })
+    } catch (error) {
+        console.log(error);
+    }
+}
+exports.searchData = searchData ;

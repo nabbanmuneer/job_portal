@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { GiHamburgerMenu, RxCross1 } from "react-icons/all";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Swal from 'sweetalert2'
+import { FiSearch } from "react-icons/fi";
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   selectCurrentUser,
   selectCurrentToken,
   selectCurrentRole,
 } from "../features/auth/authSlice";
 import { logOut } from "../features/auth/authSlice";
+
 function NavBar() {
   const Navigate = useNavigate();
   const [nav, setNav] = useState("nav");
+  const [searchOn, setSearchOn] = useState(false)
   const role = useSelector(selectCurrentRole);
   const user = useSelector(selectCurrentUser);
   const token = useSelector(selectCurrentToken);
@@ -21,35 +25,51 @@ function NavBar() {
   };
   const home = () => {
     Navigate("/");
+    setSearchOn(false);
   };
   const login = () => {
     Navigate("/login");
+    setSearchOn(false);
   };
   const register = () => {
     Navigate("/choice");
+    setSearchOn(false);
   };
   const profile = () => {
     if (role == "employer") {
+      setSearchOn(false);
       Navigate("/employer/profile");
     } else if (role == "employee") {
+      setSearchOn(false);
       Navigate("/employee/profile");
     }
   };
+
+
+
   return (
-    <div className="flex  cursor-context-menu  h-30 max-w-[1240] mx-auto px-0  ">
-      <h1
+    <div className="flex  cursor-context-menu h-30 max-w-[1240] mx-auto px-0  ">
+    <h1
         onClick={home}
         className="w-full font-bold bg-black text-yellow-400  text-2xl p-4"
       >
         LetsHire
       </h1>
-      <div className="hidden md:flex w-screen ">
+      <div className="hidden md:flex w-screen " >
         <div className="flex flex-row justify-end text-yellow-400 w-[70%] bg-black ">
           <div className="p-3" onClick={home}>
             Home
           </div>
-          <div className="p-3">Job</div>
-          <div className="p-3">Search</div>
+          <div
+            className="p-3"
+            onClick={() => {
+              setSearchOn(false);
+              Navigate("/job");
+            }}
+          >
+            Job
+          </div>
+          
         </div>
         {!token ? (
           <div className="p-3 flex flex-row justify-around text-black bg-yellow-400 font-semibold w-[30%] ">
@@ -68,8 +88,9 @@ function NavBar() {
             <div
               onClick={(e) => {
                 dispatch(logOut());
-                Swal.fire('Log Out successfully')
-                  .then(()=>{Navigate("/")})
+                Swal.fire("Log Out successfully").then(() => {
+                  Navigate("/");
+                });
               }}
               className=""
             >
@@ -97,7 +118,7 @@ function NavBar() {
             Home
           </li>
           <li className="p-4 border-b ">Job</li>
-          <li className="p-4 border-b ">Search</li>
+          {/* <li className="p-4 border-b ">Search</li> */}
           <li className="p-4 border-b " onClick={login}>
             Login
           </li>
@@ -106,6 +127,7 @@ function NavBar() {
           </li>
         </ul>
       </div>
+      
     </div>
   );
 }

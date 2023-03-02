@@ -2,7 +2,6 @@ const employeeModel = require('../models/employeeModel')
 const jobModel = require("../models/jobModel")
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
 dotenv.config();
 const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID } = process.env
 
@@ -13,19 +12,15 @@ const employeeRegister = async (req, res) => {
         let { email, phoneNo } = (req.body);
         const userVerify = await employeeModel.findOne({ email: email, phoneNo: phoneNo });
         if (!userVerify) {
-            console.log("got", phoneNo);
             await client.verify.v2
                 .services(TWILIO_SERVICE_SID)
                 .verifications.create({ to: `+91${phoneNo}`, channel: 'sms' });
-            console.log("OTP SENDED");
             res.json({ status: true });
         } else {
-            console.log("error in email or password");
             res.json({ status: false });
         }
 
     } catch (error) {
-        console.log(error, "error in otp");
         res.json({ status: false });
     }
 }
@@ -50,7 +45,6 @@ const otpVerify = async (req, res) => {
             return res.json({ status: true })
         }
     } catch (error) {
-        console.log(error);
         res.json({ status: false })
     }
 }
@@ -70,7 +64,6 @@ const employeeUpdate = async (req, res) => {
 
             }
         }, { new: true })
-        console.log("controller data", data);
     } catch (error) {
         console.log(error);
     }
@@ -109,7 +102,6 @@ const employeeProfile = async (req, res) => {
                 "bid.userId": user._id
             }
         }]);
-        console.log(job);
         const data = { user, job };
         res.json({ data });
     } catch (error) {
@@ -117,3 +109,13 @@ const employeeProfile = async (req, res) => {
     }
 }
 exports.employeeProfile = employeeProfile
+
+const jobsData = async (req,res)=>{
+    try{
+        const data = await jobModel.find();
+        res.send({data});
+    }catch(error){
+        console.log(error);
+    }
+}
+exports.jobsData = jobsData
