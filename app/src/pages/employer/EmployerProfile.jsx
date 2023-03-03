@@ -47,27 +47,25 @@ const EmployerProfile = () => {
           }
         });
     }
-  }, [isOpenFrom,isOpen]);
+  }, [isOpenFrom, isOpen]);
 
-  const jobProfile = (id)=>{
-    Navigate(`/employer/jobs/${id}`)
-  }
-
-  
+  const jobProfile = (id) => {
+    Navigate(`/employer/jobs/${id}`);
+  };
 
   return (
     <>
       <div className="w-[100%] flex justify-center  ">
-        <div className=" w-full md:w-[100%] p-5 ">
+        <div className=" w-full md:w-[100%] p-5 rounded-xl ">
           <div className=" h-full w-full bg-yellow-400 rounded-md flex flex-col  md:flex-row justify-between ">
-            <div className="w-full h-full p-2 bg-black flex justify-center items-center ">
+            <div className="w-full h-full p-2 bg-black flex justify-center items-center rounded-xl ">
               <img
                 className=" h-[250px] w-[260px] rounded-full bg-white"
                 src={logo}
                 alt="profile"
               />
             </div>
-            
+
             <div className="text-neutral-800 h-full flex w-full flex-col p-1 justify-between lg:p-3 ld:text-lg  ">
               <div className="break-all p-2">Company Name :{userName}</div>
               <div className="break-all p-2">place :{place}</div>
@@ -90,12 +88,16 @@ const EmployerProfile = () => {
         </div>
       </div>
       <div className="max-w-[1240] mx-auto px-0 ">
-
-      {job && job.map((value, index) =>
-       <div className="   bg-yellow-400 p-5 m-5" key={index} onClick={()=>jobProfile(value._id)}>
-        job Title:{value.jobTitle}
-        </div>
-       )}
+        {job &&
+          job.map((value, index) => (
+            <div
+              className="   bg-yellow-400 rounded-xl p-5 m-5"
+              key={index}
+              onClick={() => jobProfile(value._id)}
+            >
+              job Title:{value.jobTitle}
+            </div>
+          ))}
       </div>
       {isOpen && <EmployerUpdate setIsOpen={setIsOpen} />}
       {isOpenFrom && <AddJob setIsOpenFrom={setIsOpenFrom} />}

@@ -31,28 +31,28 @@ const EmployeeProfile = () => {
   const [job, setJob] = useState([]);
 
   useEffect(() => {
-    const valuedata = { id };
-    console.log("efect", role, id);
-    axios
-      .post(
-        `${import.meta.env.VITE_BASESERVER_URL}/employee/profile`,
-        valuedata
-      )
-      .then((response) => {
-        if (!response.status) {
-        } else {
-          let data = response.data.data.user;
-          setJob(response.data.data.job);
-          console.log(job);
-          setUserName(data.userName);
-          setEmail(data.email);
-          setPhoneNo(data.phoneNo);
-          setPlace(data.place);
-          setQualification(data.qualification);
-          setImage(data.profilePic);
-          setPdf(data.resume);
-        }
-      });
+    if (token) {
+      axios
+        .post(
+          `${import.meta.env.VITE_BASESERVER_URL}/employee/profile`,
+          valuedata
+        )
+        .then((response) => {
+          if (!response.status) {
+          } else {
+            let data = response.data.data.user;
+            setJob(response.data.data.job);
+            console.log(job);
+            setUserName(data.userName);
+            setEmail(data.email);
+            setPhoneNo(data.phoneNo);
+            setPlace(data.place);
+            setQualification(data.qualification);
+            setImage(data.profilePic);
+            setPdf(data.resume);
+          }
+        });
+    }
   }, [isOpen]);
   const jobProfile = (id) => {
     Navigate(`/employee/jobs/${id}`);
@@ -63,9 +63,18 @@ const EmployeeProfile = () => {
         <div className=" w-full md:w-[100%] p-5  flex flex-col-reverse md:flex-row ">
           <div className="md:w-[80%] w-full ">
             <div className="flex flex-row h-fit justify-around items-center">
-              <div className="">RECEIVED</div>
-              <div>YOUR BID</div>
-              <div>FINISHED</div>
+              <div className="flex flex-col item-center">
+                <div className="text-center font-bold text-6xl">{job.length}</div>
+                <div className="font-bold text-3xl leading-tight focus:outline-none" >APPLIED JOB</div>
+              </div>
+              <div className="flex flex-col item-center">
+                <div className="text-center">{job.length}</div>
+                <div>YOUR BID</div>
+              </div>
+              <div className="flex flex-col item-center">
+                <div className="text-center">{job.length}</div>
+                <div>FINISHED</div>
+              </div>
             </div>
             <div>
               {role == "employee" ? (
