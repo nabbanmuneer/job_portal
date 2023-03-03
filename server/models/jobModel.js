@@ -52,7 +52,8 @@ const jobSchema = new Schema(
         bid:[
             {
                 bidValue:Number,
-                userId:ObjectId
+                userId:ObjectId,
+                user:String
             }
         ],
         selected:[

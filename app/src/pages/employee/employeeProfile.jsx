@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import {
   selectCurrentId,
+  selectCurrentRole,
   selectCurrentToken,
 } from "../../features/auth/authSlice";
 import EmployeeUpdate from "../../components/modals/employeeUpdate";
 const EmployeeProfile = () => {
   const Navigate = useNavigate();
-  const id = useSelector(selectCurrentId);
+  let userId = useSelector(selectCurrentId);
+  const role = useSelector(selectCurrentRole);
+  let { user } = useParams();
+  let id = " ";
+  if (role == "employee") {
+    id = userId;
+  } else {
+    id = user;
+  }
   const token = useSelector(selectCurrentToken);
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,34 +29,34 @@ const EmployeeProfile = () => {
   const [pdf, setPdf] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [job, setJob] = useState([]);
-  const valuedata = { id };
+
   useEffect(() => {
-    if (token) {
-      axios
-        .post(
-          `${import.meta.env.VITE_BASESERVER_URL}/employee/profile`,
-          valuedata
-        )
-        .then((response) => {
-          if (!response.status) {
-          } else {
-            let data = response.data.data.user;
-            setJob(response.data.data.job);
-            console.log(job);
-            setUserName(data.userName);
-            setEmail(data.email);
-            setPhoneNo(data.phoneNo);
-            setPlace(data.place);
-            setQualification(data.qualification);
-            setImage(data.profilePic);
-            setPdf(data.resume);
-          }
-        });
-    }
+    const valuedata = { id };
+    console.log("efect", role, id);
+    axios
+      .post(
+        `${import.meta.env.VITE_BASESERVER_URL}/employee/profile`,
+        valuedata
+      )
+      .then((response) => {
+        if (!response.status) {
+        } else {
+          let data = response.data.data.user;
+          setJob(response.data.data.job);
+          console.log(job);
+          setUserName(data.userName);
+          setEmail(data.email);
+          setPhoneNo(data.phoneNo);
+          setPlace(data.place);
+          setQualification(data.qualification);
+          setImage(data.profilePic);
+          setPdf(data.resume);
+        }
+      });
   }, [isOpen]);
-  const jobProfile = (id)=>{
+  const jobProfile = (id) => {
     Navigate(`/employee/jobs/${id}`);
-  }
+  };
   return (
     <>
       <div className="w-ful flex justify-center  ">
@@ -59,20 +68,24 @@ const EmployeeProfile = () => {
               <div>FINISHED</div>
             </div>
             <div>
-              {job &&
-                job.map((value, index) => (
-                  <div
-                    className="   bg-yellow-400 p-5 m-5 rounded-xl"
-                    key={index}
-                    onClick={() => jobProfile(value._id)}
-                  >
-                    <p>Job Title:{value.jobTitle}</p>
-                    <p>Bid : {value.bid.bidValue}</p>
-                  </div>
-                ))}
+              {role == "employee" ? (
+                <>
+                  {job &&
+                    job.map((value, index) => (
+                      <div
+                        className="   bg-yellow-400 p-5 m-5 rounded-xl"
+                        key={index}
+                        onClick={() => jobProfile(value._id)}
+                      >
+                        <p>Job Title:{value.jobTitle}</p>
+                        <p>Bid : {value.bid.bidValue}</p>
+                      </div>
+                    ))}
+                </>
+              ) : null}
             </div>
           </div>
-          <div className=" md:w-[20%] md:h-[500px] h-[400px] w-full bg-yellow-400 rounded-md flex sm:flex-row md:flex-col md:justify-between items-center">
+          <div className=" md:w-[20%] md:h-[500px] h-fit w-fit bg-yellow-400 rounded-md flex sm:flex-row md:flex-col md:justify-around items-center">
             <div className="lg:w-[150px] md:w-[140px] w-[160px] lg:h-[150px] h-[125px] m-5 bg-white rounded-full ">
               <img
                 className=" lg:w-[150px] md:w-[140px] w-[160px] lg:h-[150px] h-[125px] rounded-full"
@@ -87,14 +100,16 @@ const EmployeeProfile = () => {
               <div>Contact :{phoneNo}</div>
               <div>Email :{email}</div>
               <div>Rating :{}</div>
-              <div className=" ">
-                <button
-                  className="w-[75px] bg-neutral-900 text-yellow-400 rounded-lg"
-                  onClick={() => setIsOpen(true)}
-                >
-                  UPDATE
-                </button>
-              </div>
+              { role == "employee" ?
+                <div className=" ">
+                  <button
+                    className="w-[75px] bg-neutral-900 mt-2 text-yellow-400 rounded-lg"
+                    onClick={() => setIsOpen(true)}
+                  >
+                    UPDATE
+                  </button>
+                </div>: null
+              }
             </div>
           </div>
         </div>

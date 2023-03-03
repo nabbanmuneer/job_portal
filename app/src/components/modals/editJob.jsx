@@ -21,7 +21,8 @@ const AddJob = ({ setIsOpenFrom }) => {
     axios
       .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/jobData`, data)
       .then((response) => {
-        const jobData = response.data.data;
+        console.log(response);
+        const jobData = response.data.jobsData;
         setJobTitle(jobData.jobTitle);
         setCategory(jobData.Category);
         setJobType(jobData.jobType);
@@ -30,7 +31,9 @@ const AddJob = ({ setIsOpenFrom }) => {
         setSalaryType(jobData.salaryType);
         setDecrption(jobData.decrption);
         setDuration(jobData.duration);
-      });
+      }).catch((error) => {
+        console.log("catch error",error);
+      })
   }, [id]);
 
   const handleOnSubmit = async (values) => {

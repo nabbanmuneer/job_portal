@@ -35,7 +35,6 @@ const otpVerify = async (req, res) => {
         let { userName, email, password, phoneNo, otp } = req.body;
         let position = 'employer';
         const response = await otpValidiation(email, otp);
-        console.log("otpValidation", response.status);
         if (response.status === true) {
             const salt = await bcrypt.genSalt(10);
             password = await bcrypt.hash(password, salt);
@@ -88,10 +87,11 @@ const addJobForm = async (req, res) => {
             status: status,
         });
         await jobdata.save().then(() => {
-            res.json({ status: true })
+            res.status(200).json({jobdata})
         })
     } catch (error) {
-        res.json({ status: false })
+        console.log(error);
+        res.sendStatus(400)
     }
 }
 exports.addJobForm = addJobForm
@@ -130,16 +130,16 @@ const jobData = async (req, res) => {
         id = mongoose.Types.ObjectId(id)
         userId = mongoose.Types.ObjectId(userId)
         const jobsData = await jobModel.findById(id);
-        
+
         const job = await jobModel.aggregate([{
             $unwind: "$bid"
-        }, {
+        },
+        {
             "$match": {
-                "bid.userId": userId,
                 "_id": id
             }
         }]);
-        res.json({ jobsData ,job})
+        res.json({ jobsData, job })
     } catch (error) {
         // res.json({status : false })
         console.log(error);
@@ -175,3 +175,17 @@ const editJob = async (req, res) => {
     }
 }
 exports.editJob = editJob;
+
+const jobDelete = async(req,res)=> {
+    try{
+
+        let { id } = req.body;
+        console.log("id",req.body);
+        const data = await jobModel.findByIdAndDelete(id);
+        res.send({statue:true})
+    }catch(error){
+        console.log(error);
+    }
+
+}
+exports.jobDelete = jobDelete;

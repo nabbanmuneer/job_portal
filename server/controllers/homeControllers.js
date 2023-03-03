@@ -12,7 +12,6 @@ const dataGet = async (req, res) => {
         const token = req.headers.token
         const decoded = jwt_decode(token);
         let userData = decoded.UserInfo;
-        console.log("home role", userData.role);
         if (userData.role == 'employee') {
             let data = await employeeModel.findOne({ email: userData.email });
             res.json({ data });

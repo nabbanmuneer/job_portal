@@ -61,22 +61,28 @@ const AddJob = ({ setIsOpenFrom }) => {
           duration,
           id
         };
+        console.log(job);
         axios
           .post(`${import.meta.env.VITE_BASESERVER_URL}/employer/addJob`, job)
           .then(response=>{
-            if(response.data.status==true){
+            console.log(response);
+            if(response?.status==200){
               Swal.fire("job posted sucessfully")
               .then(()=>{
                 setIsOpenFrom(false);
               })
             }else{
+              console.log(response,"response error");
               Swal.fire("job post unsucessfully");
             }
           }
-          )
+          ).catch((error) => {
+            console.log("catch error",error);
+            Swal.fire("job post unsucessfully");
+          })
       } catch (error) {
+        console.log("catch error",error);
         Swal.fire("job post unsucessfully");
-        console.log(error);
       } finally {
         formik.setSubmitting(false);
       }

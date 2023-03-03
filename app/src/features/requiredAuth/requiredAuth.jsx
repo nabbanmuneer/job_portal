@@ -6,10 +6,9 @@ import React from 'react';
 
 const employerRequireAuth = () => {
     const token = useSelector(selectCurrentToken)
-    const role = useSelector(selectCurrentRole)
     const location = useLocation()
     return (
-        token && role == "employer"
+        token
         ? <Outlet />
         : <Navigate to='/login' state={{from:location}} replace />
     );

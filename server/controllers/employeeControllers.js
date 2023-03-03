@@ -73,12 +73,14 @@ exports.employeeUpdate = employeeUpdate;
 
 const bidPost = async (req, res) => {
     try {
-        let { bidValue, userId, jobId } = req.body;
+        let { bidValue, userId, jobId,userName } = req.body;
+        console.log(req.body);
         await jobModel.findByIdAndUpdate(jobId, {
             $push: {
                 "bid": {
                     bidValue: bidValue,
-                    userId: userId
+                    userId: userId,
+                    user:userName
                 }
             }
         }, { new: true }).then(

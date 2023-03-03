@@ -38,10 +38,10 @@ function NavBar() {
   const profile = () => {
     if (role == "employer") {
       setSearchOn(false);
-      Navigate("/employer/profile");
+      Navigate("/employer/profile/id");
     } else if (role == "employee") {
       setSearchOn(false);
-      Navigate("/employee/profile");
+      Navigate("/employee/profile/id");
     }
   };
 

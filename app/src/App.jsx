@@ -15,13 +15,14 @@ import JobDetail from "./pages/employer/jobDetail";
 import DetailJob from "./pages/employee/detailJob";
 import JobPage from "./pages/jobPage";
 import EmployeeRequireAuth from "./features/requiredAuth/employeeRequireAuth"
-import EmployerRequireAuth from "./features/requiredAuth/employeeRequireAuth";
+import EmployerRequireAuth from "./features/requiredAuth/employerRequiredAuth";
+import RequiredAuth from "./features/requiredAuth/requiredAuth"
 function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
-      <Route element={<EmployeeRequireAuth />}>
-      <Route path="/employee/profile"
+      <Route element={<RequiredAuth />}>
+      <Route path="/employee/profile/:user"
           element={
             <>
               <NavBar />
@@ -29,6 +30,16 @@ function App() {
             </>
           }
         />
+      <Route path="/employer/profile/:user"
+          element={
+            <>
+              <NavBar />
+              <EmployerProfile />
+            </>
+          }
+        />
+      </Route>
+      <Route element={<EmployeeRequireAuth />}>
         <Route path="/employee/jobs/:id"
           element={
             <>
@@ -39,14 +50,7 @@ function App() {
         />
         </Route>
         <Route element={<EmployerRequireAuth />}>
-        <Route path="/employer/profile"
-          element={
-            <>
-              <NavBar />
-              <EmployerProfile />
-            </>
-          }
-        />
+       
         
         <Route path="/employer/jobs/:id"
           element={
